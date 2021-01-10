@@ -5,7 +5,7 @@ import { SinglePagePortfolioRoutingModule } from './single-page-portfolio-routin
 import { SinglePagePorfolioDashboardComponent } from './components/dashboard/dashboard.component';
 import { SinglePageFolioHeaderComponent } from './components/header/header.component';
 import { AboutMeComponent } from './components/about-me/about-me.component';
-import { WebsiteComponent } from './components/website/website.component';
+import { BasicInfoComponent } from './components/basic-info/basic-info.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { EducationComponent } from './components/education/education.component';
@@ -17,7 +17,7 @@ import { WorkExperienceComponent } from './components/work-experience/work-exper
     SinglePagePorfolioDashboardComponent,
     SinglePageFolioHeaderComponent,
     AboutMeComponent,
-    WebsiteComponent,
+    BasicInfoComponent,
     ProjectsComponent,
     SkillsComponent,
     EducationComponent,
