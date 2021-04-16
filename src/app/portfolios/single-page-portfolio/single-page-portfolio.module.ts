@@ -11,6 +11,7 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { EducationComponent } from './components/education/education.component';
 import { LanguagesComponent } from './components/languages/languages.component';
 import { WorkExperienceComponent } from './components/work-experience/work-experience.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { WorkExperienceComponent } from './components/work-experience/work-exper
     LanguagesComponent,
     WorkExperienceComponent,
   ],
-  imports: [SinglePagePortfolioRoutingModule],
+  imports: [SinglePagePortfolioRoutingModule, CommonModule],
   providers: [],
 })
 export class SinglePagePortfolioModule {}

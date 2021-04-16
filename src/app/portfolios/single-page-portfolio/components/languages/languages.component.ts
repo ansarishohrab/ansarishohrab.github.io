@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-languages',
   templateUrl: './languages.component.html',
-  styleUrls: ['./languages.component.scss']
+  styleUrls: ['./languages.component.scss'],
 })
 export class LanguagesComponent implements OnInit {
+  @Input() portFolioData: any;
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  numbSequences(language) {
+    return Array(language.rating);
   }
-
 }

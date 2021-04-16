@@ -2,29 +2,11 @@
   <div class="section-inner shadow-sm rounded">
     <h2 class="heading">Work Experience</h2>
     <div class="content">
-      <div class="item">
-        <h3 class="title">Software Engineer - <span class="place"><a href="#">Rapidops Solutions Pvt. Ltd.</a></span>
-          <span class="year">(Sep 2020 - Present)</span>
+      <div class="item" *ngFor="let experience of portFolioData.experiences">
+        <h3 class="title">{{experience.designation}} - <span class="place"><a href="#">{{experience.company}}</a></span>
+          <span class="year">({{experience.joiningDate}} - {{experience.endDate}})</span>
         </h3>
-        <p>My role is to develop bug free and efficient angular application with api integration.
-          Building scallable and optimal solution in frontend application. Right now I'm working in rapidops salesmate
-          CRM product</p>
-      </div>
-
-      <div class="item">
-        <h3 class="title">Technical Consultant - <span class="place"><a href="#">Streebo Solutions Pvt. Ltd.</a></span>
-          <span class="year">(July 2017 - Sep 2020)</span>
-        </h3>
-        <p>In this company my role was to develop end-to-end solutions for client requirements using Angular frontend
-          application, Node services and Forms Experience Builder (Product of IBM)</p>
-      </div>
-
-      <div class="item">
-        <h3 class="title">Intern - <span class="place"><a href="#">Streebo Solutions Pvt. Ltd.</a></span>
-          <span class="year">(Jan 2017 - July 2017)</span>
-        </h3>
-        <p>In this phase my role was to explore IBM Forms Experience Builder, IBM Web Content Management, Angular, Ionic
-          2 and Node</p>
+        <p>{{experience.description}}</p>
       </div>
     </div>
   </div>

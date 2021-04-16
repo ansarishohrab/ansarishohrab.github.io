@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 declare let $: any;
 @Component({
@@ -7,6 +7,7 @@ declare let $: any;
   styleUrls: ['./skills.component.scss'],
 })
 export class SkillsComponent implements OnInit {
+  @Input() portFolioData: any;
   constructor() {}
 
   ngOnInit(): void {
