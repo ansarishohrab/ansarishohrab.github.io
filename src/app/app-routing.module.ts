@@ -9,6 +9,12 @@ const routes: Routes = [
         './portfolios/single-page-portfolio/single-page-portfolio.module'
       ).then((m) => m.SinglePagePortfolioModule),
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin-panel/admin.module').then((m) => m.AdminModule),
+  },
+  { path: '**', redirectTo: '/dashboard' },
 ];
 
 @NgModule({

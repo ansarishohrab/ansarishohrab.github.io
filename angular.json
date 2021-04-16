@@ -31,6 +31,7 @@
               "src/assets/plugins/bootstrap/css/bootstrap.min.css",
               "src/assets/plugins/github-calendar/dist/github-calendar.css",
               "src/assets/plugins/github-activity/github-activity-0.1.5.min.css",
+              "./node_modules/ngx-select-dropdown/dist/assets/style.css",
               "src/styles.scss"
             ],
             "scripts": [
