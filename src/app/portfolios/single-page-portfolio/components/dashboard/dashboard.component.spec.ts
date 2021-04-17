@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SinglePagePorfolioDashboardComponent } from './dashboard.component';
 
@@ -6,7 +6,7 @@ describe('SinglePagePorfolioDashboardComponent', () => {
   let component: SinglePagePorfolioDashboardComponent;
   let fixture: ComponentFixture<SinglePagePorfolioDashboardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SinglePagePorfolioDashboardComponent],
     }).compileComponents();

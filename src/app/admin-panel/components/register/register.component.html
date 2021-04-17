@@ -25,9 +25,25 @@
           <label for="description">Description</label>
           <textarea class="form-control" id="description" rows="3" placeholder="Enter about your self"></textarea>
         </div>
-        <select class='fstdropdown-select'>
-        <option>Test</option>
-        </select>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <ngx-select-dropdown id="country" [config]="countryDropConfig" [options]="countryOptions"(change)="countryChanged($event)">
+          </ngx-select-dropdown>
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <ngx-select-dropdown id="state" [config]="stateDropConfig" [options]="stateOptions"
+            (change)="stateChanged($event)">
+          </ngx-select-dropdown>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <ngx-select-dropdown id="city" [config]="cityDropConfig" [options]="cityOptions">
+          </ngx-select-dropdown>
+        </div>
+
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
