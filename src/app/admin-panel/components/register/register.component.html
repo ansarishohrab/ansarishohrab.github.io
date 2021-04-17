@@ -1,7 +1,8 @@
 <app-header></app-header>
 <div class="container">
   <form>
-    <div class="card">
+    <!-- Basic information -->
+    <div class="card m-2">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
           Basic details
@@ -9,43 +10,246 @@
       </div>
 
       <div class="card-body">
-        <div class="form-group">
-          <label for="firstname">First Name</label>
-          <input type="text" class="form-control" id="firstname" placeholder="Enter First Name">
+        <div class="d-flex w-100">
+          <div class="form-group w-25 d-flex justify-content-center">
+            <input class="d-none" id="profileImage" type="file" accept="image/*" (change)="updateSource($event)">
+            <img *ngIf="source" [src]="source" class="avatar">
+            <label for="profileImage"><i class="fas fa-edit"></i></label>
+          </div>
+          <div class="d-flex flex-column w-75">
+            <div class="d-flex">
+              <div class="form-group w-100 m-2">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" id="firstname" placeholder="Enter first name">
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="lastname">Last Name</label>
+                <input type="text" class="form-control" id="lastname" placeholder="Enter last name">
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="form-group w-100 m-2">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email">
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="phone">Phone</label>
+                <input type="number" class="form-control" id="phone" placeholder="Enter phone">
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="lastname">Last Name</label>
-          <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name">
-        </div>
-        <div class="form-group">
+
+        <div class="form-group w-100 m-2">
           <label for="designation">Designation</label>
-          <input type="text" class="form-control" id="designation" placeholder="Enter Designation">
+          <input type="text" class="form-control" id="designation" placeholder="Enter designation">
         </div>
-        <div class="form-group">
+        <div class="form-group w-100 m-2">
           <label for="description">Description</label>
           <textarea class="form-control" id="description" rows="3" placeholder="Enter about your self"></textarea>
         </div>
-        <div class="form-group">
-          <label for="country">Country</label>
-          <ngx-select-dropdown id="country" [config]="countryDropConfig" [options]="countryOptions"(change)="countryChanged($event)">
-          </ngx-select-dropdown>
-        </div>
-        <div class="form-group">
-          <label for="state">State</label>
-          <ngx-select-dropdown id="state" [config]="stateDropConfig" [options]="stateOptions"
-            (change)="stateChanged($event)">
-          </ngx-select-dropdown>
-        </div>
 
-        <div class="form-group">
-          <label for="city">City</label>
-          <ngx-select-dropdown id="city" [config]="cityDropConfig" [options]="cityOptions">
-          </ngx-select-dropdown>
+        <div class="d-flex">
+          <div class="form-group w-100 m-2">
+            <label for="country">Country</label>
+            <ngx-select-dropdown id="country" [config]="countryDropConfig" [options]="countryOptions"
+              (change)="countryChanged($event)">
+            </ngx-select-dropdown>
+          </div>
+          <div class="form-group w-100 m-2">
+            <label for="state">State</label>
+            <ngx-select-dropdown id="state" [config]="stateDropConfig" [options]="stateOptions"
+              (change)="stateChanged($event)">
+            </ngx-select-dropdown>
+          </div>
+
+          <div class="form-group w-100 m-2">
+            <label for="city">City</label>
+            <ngx-select-dropdown id="city" [config]="cityDropConfig" [options]="cityOptions">
+            </ngx-select-dropdown>
+          </div>
         </div>
-
-
-        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
+
+    <!-- Social media information -->
+    <div class="card m-2">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          Social Media Information
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="form-group w-100 m-2">
+              <label for="profileLink">Profile link</label>
+              <input type="text" class="form-control" id="profileLink" placeholder="Enter profile">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="page">Page</label>
+              <ngx-select-dropdown id="page" [config]="socialDropConfig" [options]="socialOptions">
+              </ngx-select-dropdown>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="card m-2">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          Projects
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="form-group w-100 m-2">
+              <label for="projectTitle">Title</label>
+              <input type="text" class="form-control" id="projectTitle" placeholder="Enter project title">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="projDescription">Description</label>
+              <textarea class="form-control" id="projDescription" rows="3" placeholder="Enter project description"></textarea>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experiences -->
+    <div class="card m-2">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          Experiences
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="form-group w-100 m-2">
+              <label for="company">Company</label>
+              <input type="text" class="form-control" id="company" placeholder="Enter company">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="designation">Designation</label>
+              <input type="text" class="form-control" id="designation" placeholder="Enter designation">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="startDate">Joining Date</label>
+              <dp-date-picker id='startDate'></dp-date-picker>
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="endDate">Leaving Date</label>
+              <dp-date-picker id='endDate'></dp-date-picker>
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="compDescription">Description</label>
+              <textarea class="form-control" id="compDescription" rows="3" placeholder="Enter company description"></textarea>
+            </div>
+
+          </div>
+          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="card m-2">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          Skills
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="form-group w-100 m-2">
+              <label for="skillName">Skill name</label>
+              <input type="text" class="form-control" id="skillName" placeholder="Enter skill name">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="skillLevel">Level</label>
+              <ngx-select-dropdown id="skillLevel" [config]="skillLevelDropConfig" [options]="skillLevelOptions">
+              </ngx-select-dropdown>
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="compDescription">Description</label>
+              <textarea class="form-control" id="compDescription" rows="3"
+                placeholder="Enter company description"></textarea>
+            </div>
+
+          </div>
+          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="card m-2">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          Education
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="form-group w-100 m-2">
+              <label for="degree">Degree</label>
+              <input type="text" class="form-control" id="degree" placeholder="Enter degree">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="college">College</label>
+              <input type="text" class="form-control" id="college" placeholder="Enter college">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="startDate">Start Date</label>
+              <dp-date-picker id='startDate'></dp-date-picker>
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="endDate">End Date</label>
+              <dp-date-picker id='endDate'></dp-date-picker>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card m-2">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          Languages Known
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="form-group w-100 m-2">
+              <label for="langName">Language name</label>
+              <input type="text" class="form-control" id="langName" placeholder="Enter language">
+            </div>
+            <div class="form-group w-100 m-2">
+              <label for="langLevel">Level</label>
+              <ngx-select-dropdown id="langLevel" [config]="langLevelDropConfig" [options]="langLevelOptions">
+              </ngx-select-dropdown>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary m-2 float-right">Submit</button>
   </form>
 </div>

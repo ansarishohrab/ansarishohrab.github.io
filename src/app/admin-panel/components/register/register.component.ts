@@ -43,6 +43,29 @@ export class RegisterComponent implements OnInit {
     searchOnKey: 'city_name',
   };
   cityOptions: any = [];
+
+  socialDropConfig = {
+    ...this.config,
+    placeholder: 'Select Page',
+    searchPlaceholder: 'Search Page',
+  };
+  socialOptions: any = ['Twitter', 'LinkedIn', 'Git hub'];
+
+  skillLevelDropConfig = {
+    ...this.config,
+    placeholder: 'Select level',
+    searchPlaceholder: 'Search level',
+  };
+  skillLevelOptions: any = ['Pro', 'Expert', 'Intermediate', 'Beginner'];
+
+  langLevelDropConfig = {
+    ...this.config,
+    placeholder: 'Select level',
+    searchPlaceholder: 'Search level',
+  };
+  langLevelOptions: any = ['Professional Proficiency', 'Native Speaker'];
+  source: string = 'assets/images/profile.svg';
+
   constructor(private countryService: CountryService) {}
 
   ngOnInit(): void {
@@ -77,5 +100,16 @@ export class RegisterComponent implements OnInit {
         console.log('Error while fetching cities', error);
       }
     );
+  }
+
+  updateSource($event: Event) {
+    this.projectImage($event.target['files'][0]);
+  }
+  projectImage(file: File) {
+    let reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.source = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 }

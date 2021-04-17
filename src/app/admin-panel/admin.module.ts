@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { CountryService } from './services/country.service';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @NgModule({
   declarations: [RegisterComponent, HeaderComponent],
@@ -15,6 +16,7 @@ import { CountryService } from './services/country.service';
     CommonModule,
     SelectDropDownModule,
     HttpClientModule,
+    DpDatePickerModule,
   ],
   providers: [CountryService],
 })
