@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CountryService } from '../../services/country.service';
 
 @Component({
@@ -65,8 +72,28 @@ export class RegisterComponent implements OnInit {
   };
   langLevelOptions: any = ['Professional Proficiency', 'Native Speaker'];
   source: string = 'assets/images/profile.svg';
+  registerForm: FormGroup;
 
-  constructor(private countryService: CountryService) {}
+  constructor(private countryService: CountryService, private fb: FormBuilder) {
+    this.registerForm = this.fb.group({
+      profileImage: this.fb.control('', [Validators.required]),
+      firstname: this.fb.control('', [Validators.required]),
+      lastname: this.fb.control('', [Validators.required]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      phone: this.fb.control('', [Validators.required]),
+      designation: this.fb.control('', [Validators.required]),
+      description: this.fb.control('', [Validators.required]),
+      country: this.fb.control('', [Validators.required]),
+      state: this.fb.control('', [Validators.required]),
+      city: this.fb.control('', [Validators.required]),
+      socialMediaInfo: this.fb.array([]),
+      projects: this.fb.array([]),
+      experiences: this.fb.array([]),
+      skills: this.fb.array([]),
+      education: this.fb.array([]),
+      languages: this.fb.array([]),
+    });
+  }
 
   ngOnInit(): void {
     this.countryService.getCountries().then(
@@ -103,13 +130,106 @@ export class RegisterComponent implements OnInit {
   }
 
   updateSource($event: Event) {
-    this.projectImage($event.target['files'][0]);
+    if ($event.target['files'][0]) {
+      this.projectImage($event.target['files'][0]);
+    }
   }
   projectImage(file: File) {
     let reader = new FileReader();
     reader.onload = (e: any) => {
       this.source = e.target.result;
+      this.registerForm.controls['profileImage'].setValue(
+        this.source ? this.source : ''
+      );
     };
     reader.readAsDataURL(file);
+  }
+
+  onSubmit() {
+    console.log(this.registerForm.value, this.registerForm.valid);
+  }
+
+  getSocialMediaArray() {
+    return this.registerForm.get('socialMediaInfo') as FormArray;
+  }
+
+  addSocialRow() {
+    this.getSocialMediaArray().push(
+      this.fb.group({
+        redirectionLink: this.fb.control('', [Validators.required]),
+        name: this.fb.control('', [Validators.required]),
+      })
+    );
+  }
+
+  getProjectsArray() {
+    return this.registerForm.get('projects') as FormArray;
+  }
+
+  addProjectRow() {
+    this.getProjectsArray().push(
+      this.fb.group({
+        title: this.fb.control('', [Validators.required]),
+        description: this.fb.control('', [Validators.required]),
+      })
+    );
+  }
+
+  getExperiencesArray() {
+    return this.registerForm.get('experiences') as FormArray;
+  }
+
+  addExperiencesRow() {
+    this.getExperiencesArray().push(
+      this.fb.group({
+        designation: this.fb.control('', [Validators.required]),
+        company: this.fb.control('', [Validators.required]),
+        joiningDate: this.fb.control('', [Validators.required]),
+        endDate: this.fb.control('', [Validators.required]),
+        description: this.fb.control('', [Validators.required]),
+      })
+    );
+  }
+
+  getSkillsArray() {
+    return this.registerForm.get('skills') as FormArray;
+  }
+
+  addSkillsRow() {
+    this.getSkillsArray().push(
+      this.fb.group({
+        name: this.fb.control('', [Validators.required]),
+        description: this.fb.control('', [Validators.required]),
+        level: this.fb.control('', Validators.required),
+      })
+    );
+  }
+
+  getEducationArray() {
+    return this.registerForm.get('education') as FormArray;
+  }
+
+  addEducationRow() {
+    this.getEducationArray().push(
+      this.fb.group({
+        degree: this.fb.control('', [Validators.required]),
+        college: this.fb.control('', [Validators.required]),
+        startDate: this.fb.control('', [Validators.required]),
+        endDate: this.fb.control('', [Validators.required]),
+      })
+    );
+  }
+
+  getLanguagesArray() {
+    return this.registerForm.get('languages') as FormArray;
+  }
+
+  addLanguagesRow() {
+    this.getLanguagesArray().push(
+      this.fb.group({
+        name: this.fb.control('', [Validators.required]),
+        level: this.fb.control('', [Validators.required]),
+      })
+    );
   }
 }

@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="container">
-  <form>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
     <!-- Basic information -->
     <div class="card m-2">
       <div class="card-header" id="headingOne">
@@ -20,21 +20,21 @@
             <div class="d-flex">
               <div class="form-group w-100 m-2">
                 <label for="firstname">First Name</label>
-                <input type="text" class="form-control" id="firstname" placeholder="Enter first name">
+                <input type="text" class="form-control" id="firstname" formControlName="firstname" placeholder="Enter first name">
               </div>
               <div class="form-group w-100 m-2">
                 <label for="lastname">Last Name</label>
-                <input type="text" class="form-control" id="lastname" placeholder="Enter last name">
+                <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Enter last name">
               </div>
             </div>
             <div class="d-flex">
               <div class="form-group w-100 m-2">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
               </div>
               <div class="form-group w-100 m-2">
                 <label for="phone">Phone</label>
-                <input type="number" class="form-control" id="phone" placeholder="Enter phone">
+                <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter phone">
               </div>
             </div>
           </div>
@@ -42,30 +42,30 @@
 
         <div class="form-group w-100 m-2">
           <label for="designation">Designation</label>
-          <input type="text" class="form-control" id="designation" placeholder="Enter designation">
+          <input type="text" class="form-control" id="designation" formControlName="designation" placeholder="Enter designation">
         </div>
         <div class="form-group w-100 m-2">
           <label for="description">Description</label>
-          <textarea class="form-control" id="description" rows="3" placeholder="Enter about your self"></textarea>
+          <textarea class="form-control" id="description" rows="3" formControlName="description" placeholder="Enter about your self"></textarea>
         </div>
 
         <div class="d-flex">
           <div class="form-group w-100 m-2">
             <label for="country">Country</label>
-            <ngx-select-dropdown id="country" [config]="countryDropConfig" [options]="countryOptions"
+            <ngx-select-dropdown id="country" formControlName="country" [config]="countryDropConfig" [options]="countryOptions"
               (change)="countryChanged($event)">
             </ngx-select-dropdown>
           </div>
           <div class="form-group w-100 m-2">
             <label for="state">State</label>
-            <ngx-select-dropdown id="state" [config]="stateDropConfig" [options]="stateOptions"
+            <ngx-select-dropdown id="state" formControlName="state" [config]="stateDropConfig" [options]="stateOptions"
               (change)="stateChanged($event)">
             </ngx-select-dropdown>
           </div>
 
           <div class="form-group w-100 m-2">
             <label for="city">City</label>
-            <ngx-select-dropdown id="city" [config]="cityDropConfig" [options]="cityOptions">
+            <ngx-select-dropdown id="city" formControlName="city" [config]="cityDropConfig" [options]="cityOptions">
             </ngx-select-dropdown>
           </div>
         </div>
@@ -81,19 +81,21 @@
       </div>
 
       <div class="card-body">
-        <div class="d-flex flex-column">
-          <div class="d-flex">
-            <div class="form-group w-100 m-2">
-              <label for="profileLink">Profile link</label>
-              <input type="text" class="form-control" id="profileLink" placeholder="Enter profile">
+        <div class="d-flex flex-column" formArrayName="socialMediaInfo">
+          <ng-container *ngFor="let social of getSocialMediaArray().controls; index as socialIndex">
+            <div class="d-flex" [formGroupName]="socialIndex">
+              <div class="form-group w-100 m-2">
+                <label for="profileLink">Profile link</label>
+                <input type="text" class="form-control" id="profileLink" formControlName="redirectionLink" placeholder="Enter profile">
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="page">Page</label>
+                <ngx-select-dropdown id="page" [config]="socialDropConfig" formControlName="name" [options]="socialOptions">
+                </ngx-select-dropdown>
+              </div>
             </div>
-            <div class="form-group w-100 m-2">
-              <label for="page">Page</label>
-              <ngx-select-dropdown id="page" [config]="socialDropConfig" [options]="socialOptions">
-              </ngx-select-dropdown>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+          </ng-container>
+          <button type="button" class="btn btn-primary m-2 w-25" (click)="addSocialRow()">Add more</button>
         </div>
       </div>
     </div>
@@ -107,18 +109,20 @@
       </div>
 
       <div class="card-body">
-        <div class="d-flex flex-column">
-          <div class="d-flex">
-            <div class="form-group w-100 m-2">
-              <label for="projectTitle">Title</label>
-              <input type="text" class="form-control" id="projectTitle" placeholder="Enter project title">
+        <div class="d-flex flex-column" formArrayName="projects">
+          <ng-container *ngFor="let project of getProjectsArray().controls; index as proIndex">
+            <div class="d-flex" [formGroupName]="proIndex">
+              <div class="form-group w-100 m-2">
+                <label for="projectTitle">Title</label>
+                <input type="text" class="form-control" id="projectTitle" formControlName="title" placeholder="Enter project title">
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="projDescription">Description</label>
+                <textarea class="form-control" id="projDescription" rows="3" formControlName="description" placeholder="Enter project description"></textarea>
+              </div>
             </div>
-            <div class="form-group w-100 m-2">
-              <label for="projDescription">Description</label>
-              <textarea class="form-control" id="projDescription" rows="3" placeholder="Enter project description"></textarea>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+          </ng-container>
+          <button type="button" class="btn btn-primary m-2 w-25" (click)="addProjectRow()">Add more</button>
         </div>
       </div>
     </div>
@@ -132,31 +136,33 @@
       </div>
 
       <div class="card-body">
-        <div class="d-flex flex-column">
-          <div class="d-flex">
-            <div class="form-group w-100 m-2">
-              <label for="company">Company</label>
-              <input type="text" class="form-control" id="company" placeholder="Enter company">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="designation">Designation</label>
-              <input type="text" class="form-control" id="designation" placeholder="Enter designation">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="startDate">Joining Date</label>
-              <dp-date-picker id='startDate'></dp-date-picker>
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="endDate">Leaving Date</label>
-              <dp-date-picker id='endDate'></dp-date-picker>
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="compDescription">Description</label>
-              <textarea class="form-control" id="compDescription" rows="3" placeholder="Enter company description"></textarea>
-            </div>
+        <div class="d-flex flex-column" formArrayName="experiences">
+          <ng-container *ngFor="let experience of getExperiencesArray().controls; index as expInd">
+            <div class="d-flex" [formGroupName]="expInd">
+              <div class="form-group w-100 m-2">
+                <label for="company">Company</label>
+                <input type="text" class="form-control" id="company" formControlName="company" placeholder="Enter company">
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="designation">Designation</label>
+                <input type="text" class="form-control" id="designation" formControlName="designation" placeholder="Enter designation">
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="startDate">Joining Date</label>
+                <dp-date-picker id='startDate' formControlName="joiningDate"></dp-date-picker>
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="endDate">Leaving Date</label>
+                <dp-date-picker id='endDate' formControlName="endDate"></dp-date-picker>
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="compDescription">Description</label>
+                <textarea class="form-control" id="compDescription" rows="3" formControlName="description" placeholder="Enter company description"></textarea>
+              </div>
 
-          </div>
-          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
+            </div>
+          </ng-container>
+          <button type="button" class="btn btn-primary m-2 w-25" (click)="addExperiencesRow()">Add more</button>
         </div>
       </div>
     </div>
@@ -169,27 +175,26 @@
         </h5>
       </div>
 
-      <div class="card-body">
-        <div class="d-flex flex-column">
-          <div class="d-flex">
+      <div class="card-body" formArrayName="skills">
+        <div class="d-flex flex-column" *ngFor="let skill of getSkillsArray().controls; index as skillInd">
+          <div class="d-flex" [formGroupName]="skillInd">
             <div class="form-group w-100 m-2">
               <label for="skillName">Skill name</label>
-              <input type="text" class="form-control" id="skillName" placeholder="Enter skill name">
+              <input type="text" class="form-control" id="skillName" formControlName="name" placeholder="Enter skill name">
             </div>
             <div class="form-group w-100 m-2">
               <label for="skillLevel">Level</label>
-              <ngx-select-dropdown id="skillLevel" [config]="skillLevelDropConfig" [options]="skillLevelOptions">
+              <ngx-select-dropdown id="skillLevel" [config]="skillLevelDropConfig" formControlName="level" [options]="skillLevelOptions">
               </ngx-select-dropdown>
             </div>
             <div class="form-group w-100 m-2">
               <label for="compDescription">Description</label>
-              <textarea class="form-control" id="compDescription" rows="3"
+              <textarea class="form-control" id="compDescription" rows="3" formControlName="description"
                 placeholder="Enter company description"></textarea>
             </div>
-
           </div>
-          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
         </div>
+        <button type="button" class="btn btn-primary m-2 w-25"  (click)="addSkillsRow()">Add more</button>
       </div>
     </div>
 
@@ -201,28 +206,28 @@
         </h5>
       </div>
 
-      <div class="card-body">
-        <div class="d-flex flex-column">
-          <div class="d-flex">
+      <div class="card-body" formArrayName="education">
+        <div class="d-flex flex-column" *ngFor="let education of getEducationArray().controls; index as edInd">
+          <div class="d-flex" [formGroupName]='edInd'>
             <div class="form-group w-100 m-2">
               <label for="degree">Degree</label>
-              <input type="text" class="form-control" id="degree" placeholder="Enter degree">
+              <input type="text" class="form-control" id="degree" formControlName="degree" placeholder="Enter degree">
             </div>
             <div class="form-group w-100 m-2">
               <label for="college">College</label>
-              <input type="text" class="form-control" id="college" placeholder="Enter college">
+              <input type="text" class="form-control" id="college" formControlName="college" placeholder="Enter college">
             </div>
             <div class="form-group w-100 m-2">
               <label for="startDate">Start Date</label>
-              <dp-date-picker id='startDate'></dp-date-picker>
+              <dp-date-picker id='startDate' formControlName="startDate"></dp-date-picker>
             </div>
             <div class="form-group w-100 m-2">
               <label for="endDate">End Date</label>
-              <dp-date-picker id='endDate'></dp-date-picker>
+              <dp-date-picker id='endDate' formControlName="endDate"></dp-date-picker>
             </div>
           </div>
-          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
         </div>
+        <button type="button" class="btn btn-primary m-2 w-25" (click)="addEducationRow()">Add more</button>
       </div>
     </div>
 
@@ -233,21 +238,21 @@
         </h5>
       </div>
 
-      <div class="card-body">
-        <div class="d-flex flex-column">
-          <div class="d-flex">
+      <div class="card-body" formArrayName="languages">
+        <div class="d-flex flex-column" *ngFor="let lang of getLanguagesArray().controls; index as langInd">
+          <div class="d-flex" [formGroupName]="langInd">
             <div class="form-group w-100 m-2">
               <label for="langName">Language name</label>
-              <input type="text" class="form-control" id="langName" placeholder="Enter language">
+              <input type="text" class="form-control" id="langName" formControlName="name" placeholder="Enter language">
             </div>
             <div class="form-group w-100 m-2">
               <label for="langLevel">Level</label>
-              <ngx-select-dropdown id="langLevel" [config]="langLevelDropConfig" [options]="langLevelOptions">
+              <ngx-select-dropdown id="langLevel" formControlName="level" [config]="langLevelDropConfig" [options]="langLevelOptions">
               </ngx-select-dropdown>
             </div>
           </div>
-          <button type="button" class="btn btn-primary m-2 w-25">Add more</button>
         </div>
+        <button type="button" class="btn btn-primary m-2 w-25" (click)="addLanguagesRow()">Add more</button>
       </div>
     </div>
     <button type="submit" class="btn btn-primary m-2 float-right">Submit</button>
