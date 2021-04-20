@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CountryService } from '../../services/country.service';
+import { RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +13,7 @@ export class RegisterComponent implements OnInit {
   selectedCountry: string;
   selectedState: string;
   selectedCity: string;
+  errorMessage: string = '';
   config = {
     search: true,
     placeholder: 'Select',
@@ -74,12 +71,17 @@ export class RegisterComponent implements OnInit {
   source: string = 'assets/images/profile.svg';
   registerForm: FormGroup;
 
-  constructor(private countryService: CountryService, private fb: FormBuilder) {
+  constructor(
+    private countryService: CountryService,
+    private fb: FormBuilder,
+    private registerService: RegisterService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       profileImage: this.fb.control('', [Validators.required]),
       firstname: this.fb.control('', [Validators.required]),
       lastname: this.fb.control('', [Validators.required]),
-      email: this.fb.control('', [Validators.required, Validators.email]),
+      email: this.fb.control('', [Validators.required]),
       phone: this.fb.control('', [Validators.required]),
       designation: this.fb.control('', [Validators.required]),
       description: this.fb.control('', [Validators.required]),
@@ -146,7 +148,19 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm.value, this.registerForm.valid);
+    if (this.registerForm.valid) {
+      this.errorMessage = '';
+      this.registerService.register(this.registerForm.value).subscribe(
+        (response) => {
+          this.router.navigate(['/dashboard' + response['email']]);
+        },
+        (error) => {
+          this.errorMessage = error.message;
+        }
+      );
+    } else {
+      this.errorMessage = 'Please fill valid details';
+    }
   }
 
   getSocialMediaArray() {

@@ -1,5 +1,8 @@
 <app-header></app-header>
 <div class="container">
+  <div class="alert alert-danger m-2" *ngIf="errorMessage">
+    <span>{{errorMessage}}</span>
+  </div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
     <!-- Basic information -->
     <div class="card m-2">

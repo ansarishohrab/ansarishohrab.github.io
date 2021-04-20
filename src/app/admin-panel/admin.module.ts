@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CountryService } from './services/country.service';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterService } from './services/register.service';
 
 @NgModule({
   declarations: [RegisterComponent, HeaderComponent],
@@ -21,6 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
   ],
-  providers: [CountryService],
+  providers: [CountryService, RegisterService],
 })
 export class AdminModule {}
