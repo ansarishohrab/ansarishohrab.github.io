@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { DialogModule } from 'primeng/dialog';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -19,6 +20,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     FormsModule,
     DialogModule,
     NgxUiLoaderModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

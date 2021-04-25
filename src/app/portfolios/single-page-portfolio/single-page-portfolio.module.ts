@@ -12,6 +12,7 @@ import { EducationComponent } from './components/education/education.component';
 import { LanguagesComponent } from './components/languages/languages.component';
 import { WorkExperienceComponent } from './components/work-experience/work-experience.component';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { CommonModule } from '@angular/common';
     LanguagesComponent,
     WorkExperienceComponent,
   ],
-  imports: [SinglePagePortfolioRoutingModule, CommonModule],
+  imports: [SinglePagePortfolioRoutingModule, CommonModule, HttpClientModule],
   providers: [],
 })
 export class SinglePagePortfolioModule {}

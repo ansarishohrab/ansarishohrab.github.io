@@ -151,10 +151,9 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
     if (this.registerForm.valid) {
       this.ngxService.start();
-      debugger;
       this.registerService.register(this.registerForm.value).subscribe(
         (response) => {
-          this.router.navigate(['/dashboard' + response['email']]);
+          this.router.navigate(['/dashboard/' + response['email']]);
           this.ngxService.stop();
         },
         (error) => {

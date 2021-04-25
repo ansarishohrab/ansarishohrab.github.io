@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { SinglePagePorfolioDashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard' },
+  { path: '', redirectTo: 'dashboard/ansari.shohrab80@gmail.com' },
   {
-    path: 'dashboard',
+    path: 'dashboard/:email',
     component: SinglePagePorfolioDashboardComponent,
     pathMatch: 'full',
   },

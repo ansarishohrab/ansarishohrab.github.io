@@ -3,7 +3,7 @@
     <h2 class="heading">Languages</h2>
     <div class="content">
       <ul class="list-unstyled">
-        <li class="item" *ngFor="let language of portFolioData.languages">
+        <li class="item" *ngFor="let language of portFolioData.Languages">
           <span class="title"><strong>{{language.name}}:</strong></span>
           <span class="level">{{language.level}} <br class="visible-xs" />
             <i class="fas fa-star" *ngFor='let num of numbSequences(language)'></i>
