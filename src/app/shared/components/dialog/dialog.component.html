@@ -1,0 +1,6 @@
+<p-dialog header="Message" [(visible)]="sharedService.showDialog" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <p>{{sharedService.getDialogMessage()}}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="sharedService.hideMessage()" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

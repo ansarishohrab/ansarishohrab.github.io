@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { CountryService } from '../../services/country.service';
 import { RegisterService } from '../../services/register.service';
 
@@ -13,79 +15,53 @@ export class RegisterComponent implements OnInit {
   selectedCountry: string;
   selectedState: string;
   selectedCity: string;
-  errorMessage: string = '';
-  config = {
-    search: true,
-    placeholder: 'Select',
-    noResultsFound: 'No results found!', // text to be displayed when no items are found while searching
-    searchPlaceholder: 'Search', // label thats displayed in search input,
-    searchOnKey: 'value', // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
-    clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
-    inputDirection: 'ltr', // the direction of the search input can be rtl or ltr(default)
-  };
-  countryDropConfig = {
-    ...this.config,
-    placeholder: 'Select Country',
-    searchPlaceholder: 'Search Country',
-    displayKey: 'country_name',
-    searchOnKey: 'country_name',
-  };
   countryOptions: any = [];
-  stateDropConfig = {
-    ...this.config,
-    placeholder: 'Select State',
-    searchPlaceholder: 'Search State',
-    displayKey: 'state_name',
-    searchOnKey: 'state_name',
-  };
   stateOptions: any = [];
-  cityDropConfig = {
-    ...this.config,
-    placeholder: 'Select City',
-    searchPlaceholder: 'Search City',
-    displayKey: 'city_name',
-    searchOnKey: 'city_name',
-  };
   cityOptions: any = [];
+  socialOptions: any = [
+    { name: 'Twitter' },
+    { name: 'LinkedIn' },
+    { name: 'Git hub' },
+  ];
 
-  socialDropConfig = {
-    ...this.config,
-    placeholder: 'Select Page',
-    searchPlaceholder: 'Search Page',
-  };
-  socialOptions: any = ['Twitter', 'LinkedIn', 'Git hub'];
+  skillLevelOptions: any = [
+    { name: 'Pro' },
+    { name: 'Expert' },
+    { name: 'Intermediate' },
+    { name: 'Beginner' },
+  ];
 
-  skillLevelDropConfig = {
-    ...this.config,
-    placeholder: 'Select level',
-    searchPlaceholder: 'Search level',
-  };
-  skillLevelOptions: any = ['Pro', 'Expert', 'Intermediate', 'Beginner'];
-
-  langLevelDropConfig = {
-    ...this.config,
-    placeholder: 'Select level',
-    searchPlaceholder: 'Search level',
-  };
-  langLevelOptions: any = ['Professional Proficiency', 'Native Speaker'];
+  langLevelOptions: any = [
+    { name: 'Professional Proficiency' },
+    { name: 'Native Speaker' },
+  ];
   source: string = 'assets/images/profile.svg';
   registerForm: FormGroup;
+  countryLoading;
+  stateLoading;
+  cityLoading;
+  submitted: boolean;
 
   constructor(
     private countryService: CountryService,
     private fb: FormBuilder,
     private registerService: RegisterService,
-    private router: Router
+    private router: Router,
+    public sharedService: SharedService,
+    private ngxService: NgxUiLoaderService
   ) {
     this.registerForm = this.fb.group({
       profileImage: this.fb.control('', [Validators.required]),
       firstname: this.fb.control('', [Validators.required]),
       lastname: this.fb.control('', [Validators.required]),
-      email: this.fb.control('', [Validators.required]),
+      email: this.fb.control(null, [
+        Validators.required,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ]),
       phone: this.fb.control('', [Validators.required]),
       designation: this.fb.control('', [Validators.required]),
       description: this.fb.control('', [Validators.required]),
-      country: this.fb.control('', [Validators.required]),
+      country: this.fb.control(''),
       state: this.fb.control('', [Validators.required]),
       city: this.fb.control('', [Validators.required]),
       socialMediaInfo: this.fb.array([]),
@@ -98,44 +74,68 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.countryLoading = true;
     this.countryService.getCountries().then(
       (countries) => {
         this.countryOptions = countries;
+        this.countryLoading = false;
+        this.registerForm.get('country').setValue(countries[0].country_name);
+        this.countryChanged(countries[0].country_name);
       },
       (error) => {
         console.log(error);
+        this.countryLoading = false;
       }
     );
   }
-  countryChanged(event) {
+  countryChanged(country) {
     this.stateOptions = [];
     this.cityOptions = [];
-    this.countryService.getStates(event.value.country_name).then(
+    this.stateLoading = true;
+    this.countryService.getStates(country).then(
       (states) => {
         this.stateOptions = states;
+        this.stateLoading = false;
+        this.registerForm.get('state').setValue(states[0].state_name);
+        this.stateChanged(states[0].state_name);
       },
       (error) => {
         console.log('Error while fetching states', error);
+        this.stateLoading = false;
       }
     );
   }
-  stateChanged(event) {
+  stateChanged(state) {
     this.cityOptions = [];
-    this.countryService.getCities(event.value.state_name).then(
+    this.cityLoading = true;
+    this.countryService.getCities(state).then(
       (cities) => {
         this.cityOptions = cities;
+        this.cityLoading = false;
+        this.registerForm.get('city').setValue(cities[0].city_name);
       },
       (error) => {
         console.log('Error while fetching cities', error);
+        this.cityLoading = false;
       }
     );
   }
 
   updateSource($event: Event) {
+    console.log($event.target['files'][0]);
     if ($event.target['files'][0]) {
-      this.projectImage($event.target['files'][0]);
+      if (this.bytesToSize($event.target['files'][0].size) <= 50) {
+        this.projectImage($event.target['files'][0]);
+      } else {
+        this.sharedService.showMessage('File size must be less thant 50 KB');
+      }
     }
   }
+
+  bytesToSize(bytes) {
+    return bytes / 1024;
+  }
+
   projectImage(file: File) {
     let reader = new FileReader();
     reader.onload = (e: any) => {
@@ -148,18 +148,23 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.registerForm.valid) {
-      this.errorMessage = '';
+      this.ngxService.start();
+      debugger;
       this.registerService.register(this.registerForm.value).subscribe(
         (response) => {
           this.router.navigate(['/dashboard' + response['email']]);
+          this.ngxService.stop();
         },
         (error) => {
-          this.errorMessage = error.message;
+          this.ngxService.stop();
+          this.sharedService.showMessage(error.error.message);
         }
       );
     } else {
-      this.errorMessage = 'Please fill valid details';
+      this.ngxService.stop();
+      this.sharedService.showMessage('Please fill valid details');
     }
   }
 
@@ -171,7 +176,9 @@ export class RegisterComponent implements OnInit {
     this.getSocialMediaArray().push(
       this.fb.group({
         redirectionLink: this.fb.control('', [Validators.required]),
-        name: this.fb.control('', [Validators.required]),
+        name: this.fb.control(this.socialOptions[0].name, [
+          Validators.required,
+        ]),
       })
     );
   }
@@ -214,7 +221,10 @@ export class RegisterComponent implements OnInit {
       this.fb.group({
         name: this.fb.control('', [Validators.required]),
         description: this.fb.control('', [Validators.required]),
-        level: this.fb.control('', Validators.required),
+        level: this.fb.control(
+          this.skillLevelOptions[0].name,
+          Validators.required
+        ),
       })
     );
   }
@@ -242,7 +252,9 @@ export class RegisterComponent implements OnInit {
     this.getLanguagesArray().push(
       this.fb.group({
         name: this.fb.control('', [Validators.required]),
-        level: this.fb.control('', [Validators.required]),
+        level: this.fb.control(this.langLevelOptions[0].name, [
+          Validators.required,
+        ]),
       })
     );
   }

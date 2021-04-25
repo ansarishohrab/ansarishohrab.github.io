@@ -1,263 +1,349 @@
 <app-header></app-header>
 <div class="container">
-  <div class="alert alert-danger m-2" *ngIf="errorMessage">
-    <span>{{errorMessage}}</span>
-  </div>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <!-- Basic information -->
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Basic details
-        </h5>
-      </div>
-
-      <div class="card-body">
-        <div class="d-flex w-100">
-          <div class="form-group w-25 d-flex justify-content-center">
-            <input class="d-none" id="profileImage" type="file" accept="image/*" (change)="updateSource($event)">
-            <img *ngIf="source" [src]="source" class="avatar">
-            <label for="profileImage"><i class="fas fa-edit"></i></label>
-          </div>
-          <div class="d-flex flex-column w-75">
-            <div class="d-flex">
-              <div class="form-group w-100 m-2">
-                <label for="firstname">First Name</label>
-                <input type="text" class="form-control" id="firstname" formControlName="firstname" placeholder="Enter first name">
-              </div>
-              <div class="form-group w-100 m-2">
-                <label for="lastname">Last Name</label>
-                <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Enter last name">
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="form-group w-100 m-2">
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Basic details" [selected]="true">
+        <p-splitter [style]="{'height': '100px'}" [panelSizes]="[50,50]" layout="horizontal">
+          <ng-template pTemplate>
+            <p-splitter [panelSizes]="[20,80]" layout="horizontal">
+              <ng-template pTemplate>
+                <div class="d-flex justify-content-center align-items-center w-100">
+                  <input class="d-none" id="profileImage" type="file" accept="image/*" (change)="updateSource($event)">
+                  <p-avatar *ngIf="source" [image]="source" styleClass="p-mr-2" size="xlarge" shape="circle">
+                  </p-avatar>
+                  <label for="profileImage" class="d-flex flex-column justify-content-end"><i
+                      class="pi pi-user-edit"></i></label>
+                  <small
+                    *ngIf="(registerForm.controls['profileImage'].dirty || registerForm.controls['profileImage'].touched || submitted) && registerForm.controls['profileImage'].errors?.required"
+                    class="p-error">Please enter profile picture</small>
+                </div>
+              </ng-template>
+              <ng-template pTemplate>
+                <div class="d-flex justify-content-center w-100">
+                  <div class="form-group m-2">
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" id="firstname" formControlName="firstname"
+                      placeholder="Enter first name" />
+                    <small
+                      *ngIf="(registerForm.controls['firstname'].dirty || registerForm.controls['firstname'].touched || submitted) && registerForm.controls['firstname'].errors?.required"
+                      class="p-error">Please enter first name</small>
+                  </div>
+                  <div class="form-group m-2">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" formControlName="lastname"
+                      placeholder="Enter last name">
+                    <small
+                      *ngIf="(registerForm.controls['lastname'].dirty || registerForm.controls['lastname'].touched || submitted) && registerForm.controls['lastname'].errors?.required"
+                      class="p-error">Please enter last name</small>
+                  </div>
+                </div>
+              </ng-template>
+            </p-splitter>
+          </ng-template>
+          <ng-template pTemplate>
+            <div class="d-flex w-100 justify-content-center">
+              <div class="form-group m-2">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
+                <small
+                  *ngIf="(registerForm.controls['email'].dirty || registerForm.controls['email'].touched || submitted) && registerForm.controls['email'].errors?.required"
+                  class="p-error">Please enter email</small>
+                <small
+                  *ngIf="(registerForm.controls['email'].dirty || registerForm.controls['email'].touched || submitted) && registerForm.controls['email'].errors?.pattern"
+                  class="p-error">Please enter valid email</small>
               </div>
-              <div class="form-group w-100 m-2">
+              <div class="form-group m-2">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter phone">
+                <small
+                  *ngIf="(registerForm.controls['phone'].dirty || registerForm.controls['phone'].touched || submitted) && registerForm.controls['phone'].errors?.required"
+                  class="p-error">Please enter phone</small>
               </div>
             </div>
-          </div>
-        </div>
+          </ng-template>
+        </p-splitter>
+        <p-splitter [panelSizes]="[25,25,25,25]" layout="horizontal">
+          <ng-template pTemplate>
+            <div class="form-group m-2">
+              <label for="designation">Designation</label>
+              <input type="text" class="form-control" id="designation" formControlName="designation"
+                placeholder="Enter designation">
+                <small
+                  *ngIf="(registerForm.controls['designation'].dirty || registerForm.controls['designation'].touched || submitted) && registerForm.controls['designation'].errors?.required"
+                  class="p-error">Please enter designation</small>
+            </div>
+          </ng-template>
+          <ng-template pTemplate>
+            <div class="form-group m-2 d-flex flex-column">
+              <label for="country">Country</label>
+              <p-dropdown id="country" [hidden]="countryLoading || countryOptions.length == 0" [options]="countryOptions"
+                formControlName="country" (onChange)="countryChanged($event.value.country_name)" filter=true filterBy="country_name"
+                optionLabel="country_name"></p-dropdown>
+              <p-progressSpinner *ngIf="countryLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+            </div>
+          </ng-template>
 
-        <div class="form-group w-100 m-2">
-          <label for="designation">Designation</label>
-          <input type="text" class="form-control" id="designation" formControlName="designation" placeholder="Enter designation">
-        </div>
-        <div class="form-group w-100 m-2">
+          <ng-template pTemplate>
+            <div class="form-group m-2 d-flex flex-column">
+              <label for="state">State</label>
+              <p-dropdown id="state" [hidden]="stateLoading || stateOptions.length == 0" [options]="stateOptions"
+                formControlName="state" (onChange)="stateChanged($event.value.state_name)" filter=true filterBy="state_name"
+                optionLabel="state_name"></p-dropdown>
+                <small
+                  *ngIf="(registerForm.controls['state'].dirty || registerForm.controls['state'].touched || submitted) && registerForm.controls['state'].errors?.required"
+                  class="p-error">Please enter state</small>
+              <p-progressSpinner *ngIf="stateLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate>
+            <div class="form-group m-2 d-flex flex-column">
+              <label for="city">City</label>
+              <p-dropdown id="city" [hidden]="cityLoading || cityOptions.length == 0" [options]="cityOptions"
+                formControlName="city" filter=true filterBy="city_name" optionLabel="city_name"></p-dropdown>
+                <small
+                  *ngIf="(registerForm.controls['city'].dirty || registerForm.controls['city'].touched || submitted) && registerForm.controls['city'].errors?.required"
+                  class="p-error">Please enter city</small>
+              <p-progressSpinner *ngIf="cityLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+            </div>
+          </ng-template>
+        </p-splitter>
+        <div class="form-group m-2">
           <label for="description">Description</label>
-          <textarea class="form-control" id="description" rows="3" formControlName="description" placeholder="Enter about your self"></textarea>
+          <textarea class="form-control" id="description" rows="3" formControlName="description"
+            placeholder="Enter about your self"></textarea>
+            <small
+              *ngIf="(registerForm.controls['description'].dirty || registerForm.controls['description'].touched || submitted) && registerForm.controls['description'].errors?.required"
+              class="p-error">Please enter description</small>
         </div>
-
-        <div class="d-flex">
-          <div class="form-group w-100 m-2">
-            <label for="country">Country</label>
-            <ngx-select-dropdown id="country" formControlName="country" [config]="countryDropConfig" [options]="countryOptions"
-              (change)="countryChanged($event)">
-            </ngx-select-dropdown>
-          </div>
-          <div class="form-group w-100 m-2">
-            <label for="state">State</label>
-            <ngx-select-dropdown id="state" formControlName="state" [config]="stateDropConfig" [options]="stateOptions"
-              (change)="stateChanged($event)">
-            </ngx-select-dropdown>
-          </div>
-
-          <div class="form-group w-100 m-2">
-            <label for="city">City</label>
-            <ngx-select-dropdown id="city" formControlName="city" [config]="cityDropConfig" [options]="cityOptions">
-            </ngx-select-dropdown>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Social media information -->
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Social Media Information
-        </h5>
-      </div>
-
-      <div class="card-body">
-        <div class="d-flex flex-column" formArrayName="socialMediaInfo">
-          <ng-container *ngFor="let social of getSocialMediaArray().controls; index as socialIndex">
-            <div class="d-flex" [formGroupName]="socialIndex">
-              <div class="form-group w-100 m-2">
-                <label for="profileLink">Profile link</label>
-                <input type="text" class="form-control" id="profileLink" formControlName="redirectionLink" placeholder="Enter profile">
+      </p-accordionTab>
+      <p-accordionTab header="Social Media Information">
+        <div class="card-body">
+          <div class="d-flex flex-column" formArrayName="socialMediaInfo">
+            <ng-container *ngFor="let social of getSocialMediaArray().controls; index as socialIndex">
+              <div class="d-flex" [formGroupName]="socialIndex">
+                <div class="form-group w-100 m-2">
+                  <label for="profileLink">Profile link</label>
+                  <input type="text" class="form-control" id="profileLink" formControlName="redirectionLink"
+                    placeholder="Enter profile">
+                  <small
+                    *ngIf="(social.controls['redirectionLink'].dirty || social.controls['redirectionLink'].touched || submitted) && social.controls['redirectionLink'].errors?.required"
+                    class="p-error">Please enter profile link</small>
+                </div>
+                <div class="form-group w-100 m-2 d-flex flex-column">
+                  <label for="page">Page</label>
+                  <p-dropdown id="page" [options]="socialOptions" formControlName="name"
+                    (onChange)="cityChanged($event)" filter=true filterBy="name" optionLabel="name"></p-dropdown>
+                    <small
+                      *ngIf="(social.controls['name'].dirty || social.controls['name'].touched || submitted) && social.controls['name'].errors?.required"
+                      class="p-error">Please enter page</small>
+                </div>
               </div>
-              <div class="form-group w-100 m-2">
-                <label for="page">Page</label>
-                <ngx-select-dropdown id="page" [config]="socialDropConfig" formControlName="name" [options]="socialOptions">
-                </ngx-select-dropdown>
-              </div>
+            </ng-container>
+            <div class="d-flex justify-content-end">
+              <button pButton pRipple type="button" icon="pi pi-plus"
+                class="p-button-rounded p-button-outlined float-right" (click)="addSocialRow()"></button>
             </div>
-          </ng-container>
-          <button type="button" class="btn btn-primary m-2 w-25" (click)="addSocialRow()">Add more</button>
+
+          </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Projects -->
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Projects
-        </h5>
-      </div>
-
-      <div class="card-body">
-        <div class="d-flex flex-column" formArrayName="projects">
-          <ng-container *ngFor="let project of getProjectsArray().controls; index as proIndex">
-            <div class="d-flex" [formGroupName]="proIndex">
-              <div class="form-group w-100 m-2">
-                <label for="projectTitle">Title</label>
-                <input type="text" class="form-control" id="projectTitle" formControlName="title" placeholder="Enter project title">
+      </p-accordionTab>
+      <p-accordionTab header="Projects">
+        <div class="card-body">
+          <div class="d-flex flex-column" formArrayName="projects">
+            <ng-container *ngFor="let project of getProjectsArray().controls; index as proIndex">
+              <div class="d-flex" [formGroupName]="proIndex">
+                <div class="form-group w-100 m-2">
+                  <label for="projectTitle">Title</label>
+                  <input type="text" class="form-control" id="projectTitle" formControlName="title"
+                    placeholder="Enter project title">
+                    <small
+                      *ngIf="(project.controls['title'].dirty || project.controls['title'].touched || submitted) && project.controls['title'].errors?.required"
+                      class="p-error">Please enter title</small>
+                </div>
+                <div class="form-group w-100 m-2">
+                  <label for="projDescription">Description</label>
+                  <textarea class="form-control" id="projDescription" rows="3" formControlName="description"
+                    placeholder="Enter project description"></textarea>
+                    <small
+                      *ngIf="(project.controls['description'].dirty || project.controls['description'].touched || submitted) && project.controls['description'].errors?.required"
+                      class="p-error">Please enter description</small>
+                </div>
               </div>
-              <div class="form-group w-100 m-2">
-                <label for="projDescription">Description</label>
-                <textarea class="form-control" id="projDescription" rows="3" formControlName="description" placeholder="Enter project description"></textarea>
-              </div>
+            </ng-container>
+            <div class="d-flex justify-content-end">
+              <button pButton pRipple type="button" icon="pi pi-plus"
+                class="p-button-rounded p-button-outlined float-right" (click)="addProjectRow()"></button>
             </div>
-          </ng-container>
-          <button type="button" class="btn btn-primary m-2 w-25" (click)="addProjectRow()">Add more</button>
+          </div>
         </div>
-      </div>
-    </div>
+      </p-accordionTab>
+      <p-accordionTab header="Experiences">
+        <div class="card-body">
+          <div class="d-flex flex-column" formArrayName="experiences">
+            <ng-container *ngFor="let experience of getExperiencesArray().controls; index as expInd">
+              <div class="d-flex" [formGroupName]="expInd">
+                <div class="form-group w-100 m-2">
+                  <label for="company">Company</label>
+                  <input type="text" class="form-control" id="company" formControlName="company"
+                    placeholder="Enter company">
+                    <small
+                      *ngIf="(experience.controls['company'].dirty || experience.controls['company'].touched || submitted) && experience.controls['company'].errors?.required"
+                      class="p-error">Please enter company</small>
+                </div>
+                <div class="form-group w-100 m-2">
+                  <label for="designation">Designation</label>
+                  <input type="text" class="form-control" id="designation" formControlName="designation"
+                    placeholder="Enter designation">
+                    <small
+                      *ngIf="(experience.controls['designation'].dirty || experience.controls['designation'].touched || submitted) && experience.controls['designation'].errors?.required"
+                      class="p-error">Please enter designation</small>
+                </div>
+                <div class="form-group w-100 m-2 d-flex flex-column">
+                  <label for="startDate">Joining Date</label>
+                  <p-calendar #exStartDate id='startDate' formControlName="joiningDate"
+                    [maxDate]="exEndDate.value || ''"></p-calendar>
+                    <small
+                      *ngIf="(experience.controls['joiningDate'].dirty || experience.controls['joiningDate'].touched || submitted) && experience.controls['joiningDate'].errors?.required"
+                      class="p-error">Please enter joining date</small>
+                </div>
+                <div class="form-group w-100 m-2 d-flex flex-column">
+                  <label for="endDate">Leaving Date</label>
+                  <p-calendar #exEndDate id='endDate' formControlName="endDate" [minDate]="exStartDate.value  || ''">
+                  </p-calendar>
+                  <small
+                    *ngIf="(experience.controls['endDate'].dirty || experience.controls['endDate'].touched || submitted) && experience.controls['endDate'].errors?.required"
+                    class="p-error">Please enter leaving date</small>
+                </div>
+                <div class="form-group w-100 m-2">
+                  <label for="compDescription">Description</label>
+                  <textarea class="form-control" id="compDescription" rows="3" formControlName="description"
+                    placeholder="Enter company description"></textarea>
+                    <small
+                      *ngIf="(experience.controls['description'].dirty || experience.controls['description'].touched || submitted) && experience.controls['description'].errors?.required"
+                      class="p-error">Please enter description</small>
+                </div>
 
-    <!-- Experiences -->
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Experiences
-        </h5>
-      </div>
-
-      <div class="card-body">
-        <div class="d-flex flex-column" formArrayName="experiences">
-          <ng-container *ngFor="let experience of getExperiencesArray().controls; index as expInd">
-            <div class="d-flex" [formGroupName]="expInd">
-              <div class="form-group w-100 m-2">
-                <label for="company">Company</label>
-                <input type="text" class="form-control" id="company" formControlName="company" placeholder="Enter company">
               </div>
+            </ng-container>
+            <div class="d-flex justify-content-end">
+              <button pButton pRipple type="button" icon="pi pi-plus"
+                class="p-button-rounded p-button-outlined float-right" (click)="addExperiencesRow()"></button>
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab header="Skills">
+        <div class="card-body" formArrayName="skills">
+          <div class="d-flex flex-column" *ngFor="let skill of getSkillsArray().controls; index as skillInd">
+            <div class="d-flex" [formGroupName]="skillInd">
               <div class="form-group w-100 m-2">
-                <label for="designation">Designation</label>
-                <input type="text" class="form-control" id="designation" formControlName="designation" placeholder="Enter designation">
+                <label for="skillName">Skill name</label>
+                <input type="text" class="form-control" id="skillName" formControlName="name"
+                  placeholder="Enter skill name">
+                  <small
+                    *ngIf="(skill.controls['name'].dirty || skill.controls['name'].touched || submitted) && skill.controls['name'].errors?.required"
+                    class="p-error">Please enter skill name</small>
               </div>
-              <div class="form-group w-100 m-2">
-                <label for="startDate">Joining Date</label>
-                <input type="date" id='startDate' formControlName="joiningDate">
-              </div>
-              <div class="form-group w-100 m-2">
-                <label for="endDate">Leaving Date</label>
-                <input type="date" id='endDate' formControlName="endDate">
+              <div class="form-group w-100 m-2 d-flex flex-column">
+                <label for="skillLevel">Level</label>
+                <p-dropdown id="skillLevel" [options]="skillLevelOptions" formControlName="level" optionLabel="name">
+                </p-dropdown>
+                <small
+                  *ngIf="(skill.controls['level'].dirty || skill.controls['level'].touched || submitted) && skill.controls['level'].errors?.required"
+                  class="p-error">Please enter level</small>
               </div>
               <div class="form-group w-100 m-2">
                 <label for="compDescription">Description</label>
-                <textarea class="form-control" id="compDescription" rows="3" formControlName="description" placeholder="Enter company description"></textarea>
+                <textarea class="form-control" id="compDescription" rows="3" formControlName="description"
+                  placeholder="Enter company description"></textarea>
+                  <small
+                    *ngIf="(skill.controls['description'].dirty || skill.controls['description'].touched || submitted) && skill.controls['description'].errors?.required"
+                    class="p-error">Please enter description</small>
               </div>
-
-            </div>
-          </ng-container>
-          <button type="button" class="btn btn-primary m-2 w-25" (click)="addExperiencesRow()">Add more</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Skills -->
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Skills
-        </h5>
-      </div>
-
-      <div class="card-body" formArrayName="skills">
-        <div class="d-flex flex-column" *ngFor="let skill of getSkillsArray().controls; index as skillInd">
-          <div class="d-flex" [formGroupName]="skillInd">
-            <div class="form-group w-100 m-2">
-              <label for="skillName">Skill name</label>
-              <input type="text" class="form-control" id="skillName" formControlName="name" placeholder="Enter skill name">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="skillLevel">Level</label>
-              <ngx-select-dropdown id="skillLevel" [config]="skillLevelDropConfig" formControlName="level" [options]="skillLevelOptions">
-              </ngx-select-dropdown>
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="compDescription">Description</label>
-              <textarea class="form-control" id="compDescription" rows="3" formControlName="description"
-                placeholder="Enter company description"></textarea>
             </div>
           </div>
-        </div>
-        <button type="button" class="btn btn-primary m-2 w-25"  (click)="addSkillsRow()">Add more</button>
-      </div>
-    </div>
-
-    <!-- Education -->
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Education
-        </h5>
-      </div>
-
-      <div class="card-body" formArrayName="education">
-        <div class="d-flex flex-column" *ngFor="let education of getEducationArray().controls; index as edInd">
-          <div class="d-flex" [formGroupName]='edInd'>
-            <div class="form-group w-100 m-2">
-              <label for="degree">Degree</label>
-              <input type="text" class="form-control" id="degree" formControlName="degree" placeholder="Enter degree">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="college">College</label>
-              <input type="text" class="form-control" id="college" formControlName="college" placeholder="Enter college">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="startDate">Start Date</label>
-              <input type="date" id='startDate' formControlName="startDate">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="endDate">End Date</label>
-              <input type="date" id='endDate' formControlName="endDate">
-            </div>
+          <div class="d-flex justify-content-end">
+            <button pButton pRipple type="button" icon="pi pi-plus"
+              class="p-button-rounded p-button-outlined float-right" (click)="addSkillsRow()"></button>
           </div>
         </div>
-        <button type="button" class="btn btn-primary m-2 w-25" (click)="addEducationRow()">Add more</button>
-      </div>
-    </div>
-
-    <div class="card m-2">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          Languages Known
-        </h5>
-      </div>
-
-      <div class="card-body" formArrayName="languages">
-        <div class="d-flex flex-column" *ngFor="let lang of getLanguagesArray().controls; index as langInd">
-          <div class="d-flex" [formGroupName]="langInd">
-            <div class="form-group w-100 m-2">
-              <label for="langName">Language name</label>
-              <input type="text" class="form-control" id="langName" formControlName="name" placeholder="Enter language">
-            </div>
-            <div class="form-group w-100 m-2">
-              <label for="langLevel">Level</label>
-              <ngx-select-dropdown id="langLevel" formControlName="level" [config]="langLevelDropConfig" [options]="langLevelOptions">
-              </ngx-select-dropdown>
+      </p-accordionTab>
+      <p-accordionTab header="Education">
+        <div class="card-body" formArrayName="education">
+          <div class="d-flex flex-column" *ngFor="let education of getEducationArray().controls; index as edInd">
+            <div class="d-flex" [formGroupName]='edInd'>
+              <div class="form-group w-100 m-2">
+                <label for="degree">Degree</label>
+                <input type="text" class="form-control" id="degree" formControlName="degree" placeholder="Enter degree">
+                <small
+                  *ngIf="(education.controls['degree'].dirty || education.controls['degree'].touched || submitted) && education.controls['degree'].errors?.required"
+                  class="p-error">Please enter degree</small>
+              </div>
+              <div class="form-group w-100 m-2">
+                <label for="college">College</label>
+                <input type="text" class="form-control" id="college" formControlName="college"
+                  placeholder="Enter college">
+                  <small
+                    *ngIf="(education.controls['college'].dirty || education.controls['college'].touched || submitted) && education.controls['college'].errors?.required"
+                    class="p-error">Please enter college</small>
+              </div>
+              <div class="form-group w-100 m-2 d-flex flex-column">
+                <label for="startDate">Start Date</label>
+                <p-calendar #edStartDate id='startDate' formControlName="startDate" [maxDate]="edEndDate.value || ''">
+                </p-calendar>
+                <small
+                  *ngIf="(education.controls['startDate'].dirty || education.controls['startDate'].touched || submitted) && education.controls['startDate'].errors?.required"
+                  class="p-error">Please enter start date</small>
+              </div>
+              <div class="form-group w-100 m-2 d-flex flex-column">
+                <label for="endDate">End Date</label>
+                <p-calendar #edEndDate id='endDate' formControlName="endDate" [minDate]="edStartDate.value || ''">
+                </p-calendar>
+                <small
+                  *ngIf="(education.controls['endDate'].dirty || education.controls['endDate'].touched || submitted) && education.controls['endDate'].errors?.required"
+                  class="p-error">Please enter end date</small>
+              </div>
             </div>
           </div>
+          <div class="d-flex justify-content-end">
+            <button pButton pRipple type="button" icon="pi pi-plus"
+              class="p-button-rounded p-button-outlined float-right" (click)="addEducationRow()"></button>
+          </div>
         </div>
-        <button type="button" class="btn btn-primary m-2 w-25" (click)="addLanguagesRow()">Add more</button>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary m-2 float-right">Submit</button>
+      </p-accordionTab>
+
+      <p-accordionTab header="Languages Known">
+        <div class="card-body" formArrayName="languages">
+          <div class="d-flex flex-column" *ngFor="let lang of getLanguagesArray().controls; index as langInd">
+            <div class="d-flex" [formGroupName]="langInd">
+              <div class="form-group w-100 m-2">
+                <label for="langName">Language name</label>
+                <input type="text" class="form-control" id="langName" formControlName="name"
+                  placeholder="Enter language">
+                  <small
+                    *ngIf="(lang.controls['name'].dirty || lang.controls['name'].touched || submitted) && lang.controls['name'].errors?.required"
+                    class="p-error">Please enter language name</small>
+              </div>
+              <div class="form-group w-100 m-2 d-flex flex-column">
+                <label for="langLevel">Level</label>
+                <p-dropdown id="skillLevel" [options]="langLevelOptions" formControlName="level" optionLabel="name">
+                </p-dropdown>
+                <small
+                  *ngIf="(lang.controls['level'].dirty || lang.controls['level'].touched || submitted) && lang.controls['level'].errors?.required"
+                  class="p-error">Please enter level</small>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button pButton pRipple type="button" icon="pi pi-plus"
+              class="p-button-rounded p-button-outlined float-right" (click)="addLanguagesRow()"></button>
+          </div>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+
+    <button pButton type="submit" label="Submit" class="p-button-outlined m-2"></button>
   </form>
 </div>
