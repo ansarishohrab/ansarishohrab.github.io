@@ -5,7 +5,7 @@
       <div class="item" *ngFor="let education of portFolioData.Education">
         <h3 class="title"><i class="fas fa-graduation-cap"></i> {{education.degree}}</h3>
         <h4 class="university">{{education.college}}
-          <span class="year">({{education.startDate}}-{{education.endDate}})</span>
+          <span class="year">({{education.startDate | date:'y'}}-{{education.endDate | date:'y'}})</span>
         </h4>
       </div>
     </div>

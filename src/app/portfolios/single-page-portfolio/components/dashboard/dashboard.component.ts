@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
@@ -11,18 +12,22 @@ export class SinglePagePorfolioDashboardComponent implements OnInit {
   portFolioData: any;
   constructor(
     private sharedService: SharedService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private ngxService: NgxUiLoaderService
+  ) { }
 
   ngOnInit(): void {
     let email = this.route.snapshot.paramMap.get('email');
+    this.ngxService.start();
     this.sharedService.getUserDetails(email).subscribe(
       (portFolioData: any) => {
         console.log(portFolioData.data);
         this.portFolioData = portFolioData.data;
+        this.ngxService.stop();
       },
       (error) => {
         this.sharedService.showMessage('Can not fetch user details');
+        this.ngxService.stop();
       }
     );
   }

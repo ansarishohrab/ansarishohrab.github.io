@@ -4,7 +4,7 @@
     <div class="content">
       <div class="item" *ngFor="let experience of portFolioData.Experiences">
         <h3 class="title">{{experience.designation}} - <span class="place"><a href="#">{{experience.company}}</a></span>
-          <span class="year">({{experience.joiningDate}} - {{experience.endDate}})</span>
+          <span class="year">({{experience.joiningDate | date}} - {{experience.endDate | date}})</span>
         </h3>
         <p>{{experience.description}}</p>
       </div>
