@@ -9,6 +9,7 @@ import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { DialogModule } from 'primeng/dialog';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from 'primeng/api';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -20,9 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     DialogModule,
     NgxUiLoaderModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
