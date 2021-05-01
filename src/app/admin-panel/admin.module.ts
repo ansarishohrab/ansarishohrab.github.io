@@ -16,8 +16,15 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CalendarModule } from 'primeng/calendar';
+import { BasicDetailsFormComponent } from './components/basic-details-form/basic-details-form.component';
+import { SocialInfoFormComponent } from './components/social-info-form/social-info-form.component';
+import { ProjectsFormComponent } from './components/projects-form/projects-form.component';
+import { ExperienceFormComponent } from './components/experience-form/experience-form.component';
+import { SkillsFormComponent } from './components/skills-form/skills-form.component';
+import { EducationFormComponent } from './components/education-form/education-form.component';
+import { LanguageFormComponent } from './components/language-form/language-form.component';
 @NgModule({
-  declarations: [RegisterComponent, HeaderComponent],
+  declarations: [RegisterComponent, HeaderComponent, BasicDetailsFormComponent, SocialInfoFormComponent, ProjectsFormComponent, ExperienceFormComponent, SkillsFormComponent, EducationFormComponent, LanguageFormComponent],
   imports: [
     AdminRoutingModule,
     CommonModule,

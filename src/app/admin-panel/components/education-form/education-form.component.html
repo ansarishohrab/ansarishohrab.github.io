@@ -1,0 +1,42 @@
+<form [formGroup]="registerForm">
+  <div class="card-body" formArrayName="education">
+    <div class="d-flex flex-column" *ngFor="let education of getEducationArray().controls; index as edInd">
+      <div class="d-flex" [formGroupName]='edInd'>
+        <div class="form-group w-100 m-2">
+          <label for="degree">Degree</label>
+          <input type="text" class="form-control" id="degree" formControlName="degree" placeholder="Enter degree">
+          <small
+            *ngIf="(education.controls['degree'].dirty || education.controls['degree'].touched || submitted) && education.controls['degree'].errors?.required"
+            class="p-error">Please enter degree</small>
+        </div>
+        <div class="form-group w-100 m-2">
+          <label for="college">College</label>
+          <input type="text" class="form-control" id="college" formControlName="college" placeholder="Enter college">
+          <small
+            *ngIf="(education.controls['college'].dirty || education.controls['college'].touched || submitted) && education.controls['college'].errors?.required"
+            class="p-error">Please enter college</small>
+        </div>
+        <div class="form-group w-100 m-2 d-flex flex-column">
+          <label for="startDate">Start Date</label>
+          <p-calendar #edStartDate id='startDate' formControlName="startDate" [maxDate]="edEndDate.value || ''">
+          </p-calendar>
+          <small
+            *ngIf="(education.controls['startDate'].dirty || education.controls['startDate'].touched || submitted) && education.controls['startDate'].errors?.required"
+            class="p-error">Please enter start date</small>
+        </div>
+        <div class="form-group w-100 m-2 d-flex flex-column">
+          <label for="endDate">End Date</label>
+          <p-calendar #edEndDate id='endDate' formControlName="endDate" [minDate]="edStartDate.value || ''">
+          </p-calendar>
+          <small
+            *ngIf="(education.controls['endDate'].dirty || education.controls['endDate'].touched || submitted) && education.controls['endDate'].errors?.required"
+            class="p-error">Please enter end date</small>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
+        (click)="addEducationRow()"></button>
+    </div>
+  </div>
+</form>

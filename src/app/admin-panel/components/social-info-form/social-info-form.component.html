@@ -1,0 +1,31 @@
+<form [formGroup]='registerForm'>
+  <div class="card-body">
+    <div class="d-flex flex-column" formArrayName="socialMediaInfo">
+      <ng-container *ngFor="let social of getSocialMediaArray().controls; index as socialIndex">
+        <div class="d-flex" [formGroupName]="socialIndex">
+          <div class="form-group w-100 m-2">
+            <label for="profileLink">Profile link</label>
+            <input type="text" class="form-control" id="profileLink" formControlName="redirectionLink"
+              placeholder="Enter profile">
+            <small *ngIf="(social.controls['redirectionLink'].dirty || social.controls['redirectionLink'].touched ||
+          submitted) && social.controls['redirectionLink'].errors?.required" class="p-error">Please enter profile
+              link</small>
+          </div>
+          <div class="form-group w-100 m-2 d-flex flex-column">
+            <label for="page">Page</label>
+            <p-dropdown id="page" [options]="socialOptions" formControlName="name" (onChange)="cityChanged($event)"
+              filter=true filterBy="name" optionLabel="name"></p-dropdown>
+            <small
+              *ngIf="(social.controls['name'].dirty || social.controls['name'].touched || submitted) && social.controls['name'].errors?.required"
+              class="p-error">Please enter page</small>
+          </div>
+        </div>
+      </ng-container>
+      <div class="d-flex justify-content-end">
+        <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
+          (click)="addSocialRow()"></button>
+      </div>
+
+    </div>
+  </div>
+</form>

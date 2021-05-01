@@ -1,0 +1,115 @@
+<form [formGroup]="registerForm">
+  <p-splitter [style]="{'height': '100px'}" [panelSizes]="[50,50]" layout="horizontal">
+    <ng-template pTemplate>
+      <p-splitter [panelSizes]="[20,80]" layout="horizontal">
+        <ng-template pTemplate>
+          <div class="d-flex justify-content-center align-items-center w-100">
+            <input class="d-none" id="profileImage" type="file" accept="image/*" (change)="updateSource($event)">
+            <p-avatar *ngIf="source" [image]="source" styleClass="p-mr-2" size="xlarge" shape="circle">
+            </p-avatar>
+            <label for="profileImage" class="d-flex flex-column justify-content-end"><i
+                class="pi pi-user-edit"></i></label>
+            <small
+              *ngIf="(registerForm.controls['profileImage'].dirty || registerForm.controls['profileImage'].touched || submitted) && registerForm.controls['profileImage'].errors?.required"
+              class="p-error">Please enter profile picture</small>
+          </div>
+        </ng-template>
+        <ng-template pTemplate>
+          <div class="d-flex justify-content-center w-100">
+            <div class="form-group m-2">
+              <label for="firstname">First Name</label>
+              <input type="text" class="form-control" id="firstname" formControlName="firstname"
+                placeholder="Enter first name" />
+              <small
+                *ngIf="(registerForm.controls['firstname'].dirty || registerForm.controls['firstname'].touched || submitted) && registerForm.controls['firstname'].errors?.required"
+                class="p-error">Please enter first name</small>
+            </div>
+            <div class="form-group m-2">
+              <label for="lastname">Last Name</label>
+              <input type="text" class="form-control" id="lastname" formControlName="lastname"
+                placeholder="Enter last name">
+              <small
+                *ngIf="(registerForm.controls['lastname'].dirty || registerForm.controls['lastname'].touched || submitted) && registerForm.controls['lastname'].errors?.required"
+                class="p-error">Please enter last name</small>
+            </div>
+          </div>
+        </ng-template>
+      </p-splitter>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="d-flex w-100 justify-content-center">
+        <div class="form-group m-2">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
+          <small
+            *ngIf="(registerForm.controls['email'].dirty || registerForm.controls['email'].touched || submitted) && registerForm.controls['email'].errors?.required"
+            class="p-error">Please enter email</small>
+          <small
+            *ngIf="(registerForm.controls['email'].dirty || registerForm.controls['email'].touched || submitted) && registerForm.controls['email'].errors?.pattern"
+            class="p-error">Please enter valid email</small>
+        </div>
+        <div class="form-group m-2">
+          <label for="phone">Phone</label>
+          <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter phone">
+          <small
+            *ngIf="(registerForm.controls['phone'].dirty || registerForm.controls['phone'].touched || submitted) && registerForm.controls['phone'].errors?.required"
+            class="p-error">Please enter phone</small>
+        </div>
+      </div>
+    </ng-template>
+  </p-splitter>
+  <p-splitter [panelSizes]="[25,25,25,25]" layout="horizontal">
+    <ng-template pTemplate>
+      <div class="form-group m-2">
+        <label for="designation">Designation</label>
+        <input type="text" class="form-control" id="designation" formControlName="designation"
+          placeholder="Enter designation">
+        <small
+          *ngIf="(registerForm.controls['designation'].dirty || registerForm.controls['designation'].touched || submitted) && registerForm.controls['designation'].errors?.required"
+          class="p-error">Please enter designation</small>
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="form-group m-2 d-flex flex-column">
+        <label for="country">Country</label>
+        <p-dropdown id="country" [hidden]="countryLoading || countryOptions.length == 0" [options]="countryOptions"
+          formControlName="country" (onChange)="countryChanged($event.value.country_name)" filter=true
+          filterBy="country_name" optionLabel="country_name"></p-dropdown>
+        <p-progressSpinner *ngIf="countryLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate>
+      <div class="form-group m-2 d-flex flex-column">
+        <label for="state">State</label>
+        <p-dropdown id="state" [hidden]="stateLoading || stateOptions.length == 0" [options]="stateOptions"
+          formControlName="state" (onChange)="stateChanged($event.value.state_name)" filter=true filterBy="state_name"
+          optionLabel="state_name"></p-dropdown>
+        <small
+          *ngIf="(registerForm.controls['state'].dirty || registerForm.controls['state'].touched || submitted) && registerForm.controls['state'].errors?.required"
+          class="p-error">Please enter state</small>
+        <p-progressSpinner *ngIf="stateLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate>
+      <div class="form-group m-2 d-flex flex-column">
+        <label for="city">City</label>
+        <p-dropdown id="city" [hidden]="cityLoading || cityOptions.length == 0" [options]="cityOptions"
+          formControlName="city" filter=true filterBy="city_name" optionLabel="city_name"></p-dropdown>
+        <small
+          *ngIf="(registerForm.controls['city'].dirty || registerForm.controls['city'].touched || submitted) && registerForm.controls['city'].errors?.required"
+          class="p-error">Please enter city</small>
+        <p-progressSpinner *ngIf="cityLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
+      </div>
+    </ng-template>
+  </p-splitter>
+  <div class="form-group m-2">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" rows="3" formControlName="description"
+      placeholder="Enter about your self"></textarea>
+    <small
+      *ngIf="(registerForm.controls['description'].dirty || registerForm.controls['description'].touched || submitted) && registerForm.controls['description'].errors?.required"
+      class="p-error">Please enter description</small>
+  </div>
+</form>

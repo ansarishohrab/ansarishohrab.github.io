@@ -1,0 +1,35 @@
+<form [formGroup]='registerForm'>
+  <div class="card-body" formArrayName="skills">
+    <div class="d-flex flex-column" *ngFor="let skill of getSkillsArray().controls; index as skillInd">
+      <div class="d-flex" [formGroupName]="skillInd">
+        <div class="form-group w-100 m-2">
+          <label for="skillName">Skill name</label>
+          <input type="text" class="form-control" id="skillName" formControlName="name" placeholder="Enter skill name">
+          <small
+            *ngIf="(skill.controls['name'].dirty || skill.controls['name'].touched || submitted) && skill.controls['name'].errors?.required"
+            class="p-error">Please enter skill name</small>
+        </div>
+        <div class="form-group w-100 m-2 d-flex flex-column">
+          <label for="skillLevel">Level</label>
+          <p-dropdown id="skillLevel" [options]="skillLevelOptions" formControlName="level" optionLabel="name">
+          </p-dropdown>
+          <small
+            *ngIf="(skill.controls['level'].dirty || skill.controls['level'].touched || submitted) && skill.controls['level'].errors?.required"
+            class="p-error">Please enter level</small>
+        </div>
+        <div class="form-group w-100 m-2">
+          <label for="compDescription">Description</label>
+          <textarea class="form-control" id="compDescription" rows="3" formControlName="description"
+            placeholder="Enter company description"></textarea>
+          <small
+            *ngIf="(skill.controls['description'].dirty || skill.controls['description'].touched || submitted) && skill.controls['description'].errors?.required"
+            class="p-error">Please enter description</small>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
+        (click)="addSkillsRow()"></button>
+    </div>
+  </div>
+</form>

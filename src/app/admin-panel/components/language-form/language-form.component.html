@@ -1,0 +1,27 @@
+<form [formGroup]='registerForm'>
+  <div class="card-body" formArrayName="languages">
+    <div class="d-flex flex-column" *ngFor="let lang of getLanguagesArray().controls; index as langInd">
+      <div class="d-flex" [formGroupName]="langInd">
+        <div class="form-group w-100 m-2">
+          <label for="langName">Language name</label>
+          <input type="text" class="form-control" id="langName" formControlName="name" placeholder="Enter language">
+          <small
+            *ngIf="(lang.controls['name'].dirty || lang.controls['name'].touched || submitted) && lang.controls['name'].errors?.required"
+            class="p-error">Please enter language name</small>
+        </div>
+        <div class="form-group w-100 m-2 d-flex flex-column">
+          <label for="langLevel">Level</label>
+          <p-dropdown id="skillLevel" [options]="langLevelOptions" formControlName="level" optionLabel="name">
+          </p-dropdown>
+          <small
+            *ngIf="(lang.controls['level'].dirty || lang.controls['level'].touched || submitted) && lang.controls['level'].errors?.required"
+            class="p-error">Please enter level</small>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
+        (click)="addLanguagesRow()"></button>
+    </div>
+  </div>
+</form>
