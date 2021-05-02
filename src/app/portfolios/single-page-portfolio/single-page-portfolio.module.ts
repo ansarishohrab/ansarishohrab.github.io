@@ -13,6 +13,7 @@ import { LanguagesComponent } from './components/languages/languages.component';
 import { WorkExperienceComponent } from './components/work-experience/work-experience.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,14 @@ import { HttpClientModule } from '@angular/common/http';
     EducationComponent,
     LanguagesComponent,
     WorkExperienceComponent,
+
   ],
-  imports: [SinglePagePortfolioRoutingModule, CommonModule, HttpClientModule],
-  providers: [],
+  imports: [
+    SinglePagePortfolioRoutingModule,
+    CommonModule,
+    HttpClientModule,
+    DynamicDialogModule
+  ],
+  providers: [DialogService],
 })
-export class SinglePagePortfolioModule {}
+export class SinglePagePortfolioModule { }

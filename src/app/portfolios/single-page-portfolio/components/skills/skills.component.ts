@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { SkillsFormComponent } from 'src/app/shared/components/skills-form/skills-form.component';
 
 declare let $: any;
 @Component({
@@ -8,7 +10,8 @@ declare let $: any;
 })
 export class SkillsComponent implements OnInit {
   @Input() portFolioData: any;
-  constructor() {}
+  ref: DynamicDialogRef;
+  constructor(public dialogService: DialogService) { }
 
   ngOnInit(): void {
     $('.level-bar-inner').each(function () {
@@ -20,6 +23,16 @@ export class SkillsComponent implements OnInit {
         },
         800
       );
+    });
+  }
+
+  editDetails() {
+    this.ref = this.dialogService.open(SkillsFormComponent, {
+      header: 'Edit projects',
+      width: '70%',
+      contentStyle: { "max-height": "500px", "overflow": "auto" },
+      baseZIndex: 10000,
+      data: this.portFolioData
     });
   }
 }

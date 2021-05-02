@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-skills-form',
@@ -17,10 +18,26 @@ export class SkillsFormComponent implements OnInit {
     { name: 'Beginner' },
   ];
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public config: DynamicDialogConfig
   ) { }
 
   ngOnInit(): void {
+    if (!this.registerForm) {
+      this.registerForm = new FormGroup({})
+    }
+    this.registerForm.addControl('skills', this.fb.array([]));
+    if (this.config && this.config.data) {
+      this.setDefaultValue();
+    }
+  }
+
+  setDefaultValue() {
+    let skills = this.config.data.Skills;
+    for (let skillInd in skills) {
+      this.addSkillsRow();
+      this.registerForm.get('skills').patchValue(skills)
+    }
   }
 
   getSkillsArray() {

@@ -5,16 +5,18 @@
       <div class="skillset">
 
         <div class="item" *ngFor="let skill of portFolioData.Skills">
-          <h3 class="level-title">{{skill.name}}<span class="level-label" data-toggle="tooltip"
-              data-placement="left" data-animation="true"
-              [title]="skill.description"><i
-                class="fas fa-info-circle"></i>{{skill.level}}</span></h3>
+          <h3 class="level-title">{{skill.name}}<span class="level-label" data-toggle="tooltip" data-placement="left"
+              data-animation="true" [title]="skill.description"><i class="fas fa-info-circle"></i>{{skill.level}}</span>
+          </h3>
           <div class="level-bar">
             <div class="level-bar-inner" data-level="20%">
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn" (click)="editDetails()"><i class="fas fa-edit"></i></button>
     </div>
   </div>
 </aside>

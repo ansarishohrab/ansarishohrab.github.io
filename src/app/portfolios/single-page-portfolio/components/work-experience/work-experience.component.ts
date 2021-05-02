@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ExperienceFormComponent } from 'src/app/shared/components/experience-form/experience-form.component';
 
 @Component({
   selector: 'app-work-experience',
@@ -7,7 +9,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WorkExperienceComponent implements OnInit {
   @Input() portFolioData: any;
-  constructor() {}
+  ref: DynamicDialogRef;
+  constructor(public dialogService: DialogService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
+
+  editDetails() {
+    this.ref = this.dialogService.open(ExperienceFormComponent, {
+      header: 'Edit projects',
+      width: '70%',
+      contentStyle: { "max-height": "500px", "overflow": "auto" },
+      baseZIndex: 10000,
+      data: this.portFolioData
+    });
+  }
 }

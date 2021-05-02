@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-projects-form',
@@ -11,11 +12,26 @@ export class ProjectsFormComponent implements OnInit {
   @Input() registerForm: FormGroup;
   @Input() submitted;
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public config: DynamicDialogConfig
   ) { }
 
   ngOnInit(): void {
+    if (!this.registerForm) {
+      this.registerForm = new FormGroup({})
+    }
     this.registerForm.addControl('projects', this.fb.array([]))
+    if (this.config && this.config.data) {
+      this.setDefaultValue();
+    }
+  }
+
+  setDefaultValue() {
+    let projects = this.config.data.Projects;
+    for (let projInd in projects) {
+      this.addProjectRow();
+      this.registerForm.get('projects').patchValue(projects)
+    }
   }
 
   getProjectsArray() {

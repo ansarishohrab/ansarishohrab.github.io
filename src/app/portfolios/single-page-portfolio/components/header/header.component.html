@@ -8,7 +8,11 @@
       <ul class="social list-inline">
         <li *ngFor="let socialData of portFolioData.Socials" class="list-inline-item"><a
             [href]="socialData.redirectionLink" target="_blank"><i [class]="socialData.iconClass"></i></a></li>
+        <li class="list-inline-item"><a (click)="editSocialDetails()"><i class="fas fa-edit"></i></a></li>
       </ul>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn" (click)="editBasicDetails()"><i class="fas fa-edit"></i></button>
     </div>
   </div>
 </header>

@@ -10,7 +10,8 @@ import { RegisterService } from './services/register.service';
 import { ButtonModule } from 'primeng/button';
 import { AccordionModule } from 'primeng/accordion';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SharedModule } from '../shared/shared.module'
+import { SharedModule } from '../shared/shared.module';
+import { DialogService, DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 @NgModule({
   declarations: [RegisterComponent, HeaderComponent],
   imports: [
@@ -22,9 +23,10 @@ import { SharedModule } from '../shared/shared.module'
     ButtonModule,
     AccordionModule,
     ProgressSpinnerModule,
-    SharedModule
+    SharedModule,
+    DynamicDialogModule
   ],
-  providers: [RegisterService],
+  providers: [RegisterService, DialogService, DynamicDialogRef, DynamicDialogConfig],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class AdminModule { }

@@ -11,7 +11,8 @@
         </div>
         <div class="form-group w-100 m-2 d-flex flex-column">
           <label for="langLevel">Level</label>
-          <p-dropdown id="skillLevel" [options]="langLevelOptions" formControlName="level" optionLabel="name">
+          <p-dropdown id="skillLevel" [options]="langLevelOptions" formControlName="level" optionLabel="name"
+            optionValue="name">
           </p-dropdown>
           <small
             *ngIf="(lang.controls['level'].dirty || lang.controls['level'].touched || submitted) && lang.controls['level'].errors?.required"
@@ -23,5 +24,7 @@
       <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
         (click)="addLanguagesRow()"></button>
     </div>
+    <button pButton type="button" label="Submit" class="p-button-outlined m-2" (click)="onSubmit()"
+      *ngIf="config.data"></button>
   </div>
 </form>

@@ -27,11 +27,7 @@ export class RegisterComponent implements OnInit {
     public sharedService: SharedService,
     private ngxService: NgxUiLoaderService
   ) {
-    this.registerForm = this.fb.group({
-      skills: this.fb.array([]),
-      education: this.fb.array([]),
-      languages: this.fb.array([]),
-    });
+    this.registerForm = this.fb.group({});
   }
 
   ngOnInit(): void {

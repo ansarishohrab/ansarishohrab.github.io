@@ -14,7 +14,7 @@
           <div class="form-group w-100 m-2 d-flex flex-column">
             <label for="page">Page</label>
             <p-dropdown id="page" [options]="socialOptions" formControlName="name" (onChange)="cityChanged($event)"
-              filter=true filterBy="name" optionLabel="name"></p-dropdown>
+              filter=true filterBy="name" optionLabel="name" optionValue="name"></p-dropdown>
             <small
               *ngIf="(social.controls['name'].dirty || social.controls['name'].touched || submitted) && social.controls['name'].errors?.required"
               class="p-error">Please enter page</small>
@@ -25,7 +25,8 @@
         <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
           (click)="addSocialRow()"></button>
       </div>
-
+      <button pButton type="button" label="Submit" class="p-button-outlined m-2" (click)="onSubmit()"
+        *ngIf="config.data"></button>
     </div>
   </div>
 </form>

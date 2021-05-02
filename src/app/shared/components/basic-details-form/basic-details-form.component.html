@@ -74,7 +74,7 @@
         <label for="country">Country</label>
         <p-dropdown id="country" [hidden]="countryLoading || countryOptions.length == 0" [options]="countryOptions"
           formControlName="country" (onChange)="countryChanged($event.value.country_name)" filter=true
-          filterBy="country_name" optionLabel="country_name"></p-dropdown>
+          filterBy="country_name" optionLabel="country_name" optionValue="country_name"></p-dropdown>
         <p-progressSpinner *ngIf="countryLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
       </div>
     </ng-template>
@@ -84,7 +84,7 @@
         <label for="state">State</label>
         <p-dropdown id="state" [hidden]="stateLoading || stateOptions.length == 0" [options]="stateOptions"
           formControlName="state" (onChange)="stateChanged($event.value.state_name)" filter=true filterBy="state_name"
-          optionLabel="state_name"></p-dropdown>
+          optionLabel="state_name" optionValue="state_name"></p-dropdown>
         <small
           *ngIf="(registerForm.controls['state'].dirty || registerForm.controls['state'].touched || submitted) && registerForm.controls['state'].errors?.required"
           class="p-error">Please enter state</small>
@@ -96,7 +96,8 @@
       <div class="form-group m-2 d-flex flex-column">
         <label for="city">City</label>
         <p-dropdown id="city" [hidden]="cityLoading || cityOptions.length == 0" [options]="cityOptions"
-          formControlName="city" filter=true filterBy="city_name" optionLabel="city_name"></p-dropdown>
+          formControlName="city" filter=true filterBy="city_name" optionLabel="city_name" optionValue="city_name">
+        </p-dropdown>
         <small
           *ngIf="(registerForm.controls['city'].dirty || registerForm.controls['city'].touched || submitted) && registerForm.controls['city'].errors?.required"
           class="p-error">Please enter city</small>
@@ -112,4 +113,6 @@
       *ngIf="(registerForm.controls['description'].dirty || registerForm.controls['description'].touched || submitted) && registerForm.controls['description'].errors?.required"
       class="p-error">Please enter description</small>
   </div>
+  <button pButton type="button" label="Submit" class="p-button-outlined m-2" (click)="onSubmit()"
+    *ngIf="config.data"></button>
 </form>

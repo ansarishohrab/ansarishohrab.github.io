@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-social-info-form',
@@ -16,10 +17,25 @@ export class SocialInfoFormComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
+    public config: DynamicDialogConfig
   ) { }
 
   ngOnInit(): void {
+    if (!this.registerForm) {
+      this.registerForm = new FormGroup({})
+    }
     this.registerForm.addControl('socialMediaInfo', this.fb.array([]))
+    if (this.config && this.config.data) {
+      this.setDefaultValue();
+    }
+  }
+
+  setDefaultValue() {
+    let socials = this.config.data.Socials;
+    for (let socialInd in socials) {
+      this.addSocialRow();
+      this.registerForm.get('socialMediaInfo').patchValue(socials)
+    }
   }
 
   getSocialMediaArray() {

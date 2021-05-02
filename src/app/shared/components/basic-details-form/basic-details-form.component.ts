@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { CountryService } from '../../services/country.service';
 
@@ -19,13 +20,18 @@ export class BasicDetailsFormComponent implements OnInit {
   countryLoading;
   stateLoading;
   cityLoading;
+  selectedCityCode
   constructor(
     public sharedService: SharedService,
     private countryService: CountryService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public config: DynamicDialogConfig
   ) { }
 
   ngOnInit(): void {
+    if (!this.registerForm) {
+      this.registerForm = new FormGroup({})
+    }
     this.registerForm.addControl('profileImage', this.fb.control('', [Validators.required]))
     this.registerForm.addControl('firstname', this.fb.control('', [Validators.required]))
     this.registerForm.addControl('lastname', this.fb.control('', [Validators.required]))
@@ -44,15 +50,30 @@ export class BasicDetailsFormComponent implements OnInit {
       (countries) => {
         this.countryOptions = countries;
         this.countryLoading = false;
-        this.registerForm.get('country').setValue(countries[0].country_name);
-        this.countryChanged(countries[0].country_name);
+        if (this.config && this.config.data) {
+          this.registerForm.get('country').setValue(this.config.data.country);
+          this.countryChanged(this.config.data.country);
+        } else {
+          this.registerForm.get('country').setValue(countries[0].country_name);
+          this.countryChanged(countries[0].country_name);
+        }
       },
       (error) => {
         console.log(error);
         this.countryLoading = false;
       }
     );
+
+    if (this.config && this.config.data) {
+      this.setDefaultValue();
+    }
   }
+
+  setDefaultValue() {
+    this.registerForm.patchValue(this.config.data);
+    this.source = this.config.data.profileImage;
+  }
+
   countryChanged(country) {
     this.stateOptions = [];
     this.cityOptions = [];
@@ -61,8 +82,13 @@ export class BasicDetailsFormComponent implements OnInit {
       (states) => {
         this.stateOptions = states;
         this.stateLoading = false;
-        this.registerForm.get('state').setValue(states[0].state_name);
-        this.stateChanged(states[0].state_name);
+        if (this.config && this.config.data) {
+          this.registerForm.get('state').setValue(this.config.data.state);
+          this.stateChanged(this.config.data.state);
+        } else {
+          this.registerForm.get('state').setValue(states[0].state_name);
+          this.stateChanged(states[0].state_name);
+        }
       },
       (error) => {
         console.log('Error while fetching states', error);
@@ -77,7 +103,11 @@ export class BasicDetailsFormComponent implements OnInit {
       (cities) => {
         this.cityOptions = cities;
         this.cityLoading = false;
-        this.registerForm.get('city').setValue(cities[0].city_name);
+        if (this.config && this.config.data) {
+          this.registerForm.get('city').setValue(this.config.data.city);
+        } else {
+          this.registerForm.get('city').setValue(cities[0].city_name);
+        }
       },
       (error) => {
         console.log('Error while fetching cities', error);
@@ -109,6 +139,10 @@ export class BasicDetailsFormComponent implements OnInit {
 
   bytesToSize(bytes) {
     return bytes / 1024;
+  }
+
+  onSubmit() {
+    console.log(this.registerForm.value)
   }
 
 }

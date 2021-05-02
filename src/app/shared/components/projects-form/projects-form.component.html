@@ -25,6 +25,8 @@
         <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined float-right"
           (click)="addProjectRow()"></button>
       </div>
+      <button pButton type="button" label="Submit" class="p-button-outlined m-2" (click)="onSubmit()"
+        *ngIf="config.data"></button>
     </div>
   </div>
 </form>
