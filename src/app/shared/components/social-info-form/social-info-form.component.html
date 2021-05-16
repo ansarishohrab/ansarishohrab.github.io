@@ -13,8 +13,8 @@
           </div>
           <div class="form-group w-100 m-2 d-flex flex-column">
             <label for="page">Page</label>
-            <p-dropdown id="page" [options]="socialOptions" formControlName="name" (onChange)="cityChanged($event)"
-              filter=true filterBy="name" optionLabel="name" optionValue="name"></p-dropdown>
+            <p-dropdown id="page" [options]="socialOptions" formControlName="name" filter=true filterBy="name"
+              optionLabel="name" optionValue="name"></p-dropdown>
             <small
               *ngIf="(social.controls['name'].dirty || social.controls['name'].touched || submitted) && social.controls['name'].errors?.required"
               class="p-error">Please enter page</small>

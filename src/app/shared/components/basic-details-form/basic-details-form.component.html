@@ -73,8 +73,8 @@
       <div class="form-group m-2 d-flex flex-column">
         <label for="country">Country</label>
         <p-dropdown id="country" [hidden]="countryLoading || countryOptions.length == 0" [options]="countryOptions"
-          formControlName="country" (onChange)="countryChanged($event.value.country_name)" filter=true
-          filterBy="country_name" optionLabel="country_name" optionValue="country_name"></p-dropdown>
+          formControlName="country" (onChange)="countryChanged($event.value)" filter=true filterBy="country_name"
+          optionLabel="country_name" optionValue="country_name"></p-dropdown>
         <p-progressSpinner *ngIf="countryLoading" [style]="{width: '30px', height: '30px'}"></p-progressSpinner>
       </div>
     </ng-template>
@@ -83,7 +83,7 @@
       <div class="form-group m-2 d-flex flex-column">
         <label for="state">State</label>
         <p-dropdown id="state" [hidden]="stateLoading || stateOptions.length == 0" [options]="stateOptions"
-          formControlName="state" (onChange)="stateChanged($event.value.state_name)" filter=true filterBy="state_name"
+          formControlName="state" (onChange)="stateChanged($event.value)" filter=true filterBy="state_name"
           optionLabel="state_name" optionValue="state_name"></p-dropdown>
         <small
           *ngIf="(registerForm.controls['state'].dirty || registerForm.controls['state'].touched || submitted) && registerForm.controls['state'].errors?.required"
