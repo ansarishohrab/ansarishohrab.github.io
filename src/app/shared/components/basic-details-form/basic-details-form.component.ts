@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RegisterService } from 'src/app/admin-panel/services/register.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { CountryService } from '../../services/country.service';
 
@@ -13,6 +15,7 @@ export class BasicDetailsFormComponent implements OnInit {
 
   @Input() registerForm: FormGroup;
   @Input() submitted;
+  isInEditMode: boolean = false;
   source: string = 'assets/images/profile.svg';
   countryOptions: any = [];
   stateOptions: any = [];
@@ -25,7 +28,10 @@ export class BasicDetailsFormComponent implements OnInit {
     public sharedService: SharedService,
     private countryService: CountryService,
     private fb: FormBuilder,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    public registerService: RegisterService,
+    public ref: DynamicDialogRef,
+    private ngxService: NgxUiLoaderService
   ) { }
 
   ngOnInit(): void {
@@ -65,6 +71,7 @@ export class BasicDetailsFormComponent implements OnInit {
     );
 
     if (this.config && this.config.data) {
+      this.isInEditMode = true;
       this.setDefaultValue();
     }
   }
@@ -142,7 +149,14 @@ export class BasicDetailsFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm.value)
+    this.ngxService.start();
+    this.registerService.updateBasicDetails(this.registerForm.value).subscribe(response => {
+      this.ngxService.stop();
+      this.ref.close(response);
+    }, error => {
+      this.sharedService.showMessage(error.error.message);
+      this.ngxService.stop();
+    });
   }
 
 }

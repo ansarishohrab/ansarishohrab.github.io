@@ -38,7 +38,7 @@
     </ng-template>
     <ng-template pTemplate>
       <div class="d-flex w-100 justify-content-center">
-        <div class="form-group m-2">
+        <div class="form-group m-2" [hidden]="isInEditMode">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
           <small

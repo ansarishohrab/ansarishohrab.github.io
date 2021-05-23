@@ -24,6 +24,10 @@ export class BasicInfoComponent implements OnInit {
       baseZIndex: 10000,
       data: this.portFolioData
     });
+
+    this.ref.onClose.subscribe(basicDetails => {
+      console.log('test')
+    })
   }
 
   ngOnDestroy() {
