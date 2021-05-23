@@ -11,7 +11,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 export class SinglePagePorfolioDashboardComponent implements OnInit {
   portFolioData: any;
   constructor(
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private route: ActivatedRoute,
     private ngxService: NgxUiLoaderService
   ) { }
@@ -21,8 +21,6 @@ export class SinglePagePorfolioDashboardComponent implements OnInit {
     this.ngxService.start();
     this.sharedService.getUserDetails(email).subscribe(
       (portFolioData: any) => {
-        console.log(portFolioData.data);
-        this.portFolioData = portFolioData.data;
         this.ngxService.stop();
       },
       (error) => {

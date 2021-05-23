@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RegisterService } from 'src/app/admin-panel/services/register.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-social-info-form',
@@ -17,7 +19,10 @@ export class SocialInfoFormComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    public registerService: RegisterService,
+    public sharedService: SharedService,
+    public ref: DynamicDialogRef,
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +56,14 @@ export class SocialInfoFormComponent implements OnInit {
         ]),
       })
     );
+  }
+
+  onSubmit() {
+    this.registerService.updateSocialInfo(this.registerForm.value).subscribe(response => {
+      this.ref.close()
+    }, error => {
+      this.sharedService.showMessage(error.message)
+    })
   }
 
 }
