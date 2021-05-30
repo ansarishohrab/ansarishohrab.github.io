@@ -30,7 +30,16 @@ export class SharedService {
     return this.http.get(
       environment.domainUrl + '/admin/user-details/' + email
     ).pipe(map((response) => {
-      this.portFolioData = response['data'] || {};
+      this.portFolioData = response['data'] || null;
+      return response;
+    }));
+  }
+
+  deletePortfolio(email) {
+    return this.http.delete(
+      environment.domainUrl + '/admin/user-details/' + email
+    ).pipe(map((response) => {
+      this.portFolioData = response['data'] || null;
       return response;
     }));
   }

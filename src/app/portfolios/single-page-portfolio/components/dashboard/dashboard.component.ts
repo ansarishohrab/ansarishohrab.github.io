@@ -22,6 +22,9 @@ export class SinglePagePorfolioDashboardComponent implements OnInit {
     this.sharedService.getUserDetails(email).subscribe(
       (portFolioData: any) => {
         this.ngxService.stop();
+        if (!portFolioData.data) {
+          this.sharedService.showMessage('Can not fetch user details');
+        }
       },
       (error) => {
         this.sharedService.showMessage('Can not fetch user details');
@@ -29,4 +32,6 @@ export class SinglePagePorfolioDashboardComponent implements OnInit {
       }
     );
   }
+
+
 }

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RegisterService } from 'src/app/admin-panel/services/register.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-language-form',
@@ -16,7 +18,10 @@ export class LanguageFormComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    public registerService: RegisterService,
+    public ref: DynamicDialogRef,
+    public sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -52,5 +57,13 @@ export class LanguageFormComponent implements OnInit {
         ]),
       })
     );
+  }
+
+  onSubmit() {
+    this.registerService.updateLanguages(this.registerForm.value.languages).subscribe(response => {
+      this.ref.close()
+    }, error => {
+      this.sharedService.showMessage(error.message)
+    })
   }
 }

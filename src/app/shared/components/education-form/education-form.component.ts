@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RegisterService } from 'src/app/admin-panel/services/register.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-education-form',
@@ -12,7 +14,10 @@ export class EducationFormComponent implements OnInit {
   @Input() submitted;
   constructor(
     private fb: FormBuilder,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    public registerService: RegisterService,
+    public ref: DynamicDialogRef,
+    public sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +53,14 @@ export class EducationFormComponent implements OnInit {
         endDate: this.fb.control('', [Validators.required]),
       })
     );
+  }
+
+  onSubmit() {
+    this.registerService.updateEducation(this.registerForm.value.education).subscribe(response => {
+      this.ref.close()
+    }, error => {
+      this.sharedService.showMessage(error.message)
+    })
   }
 
 }
