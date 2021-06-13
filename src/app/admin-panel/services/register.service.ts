@@ -25,7 +25,11 @@ export class RegisterService {
       email: this.sharedService.portFolioData.email,
       Socials: socialData.socialMediaInfo
     }
-    return this.http.post(environment.domainUrl + '/admin/update-social-info', request);
+
+    return this.http.post(environment.domainUrl + '/admin/update-social-info', request).pipe(map((response: any) => {
+      this.sharedService.portFolioData.Socials = response.data
+      return response
+    }));
   }
 
   updateProjects(projects) {
