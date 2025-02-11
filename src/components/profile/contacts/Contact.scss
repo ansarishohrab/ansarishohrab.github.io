@@ -1,0 +1,24 @@
+.contacts-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 580px) {
+  .contacts-container {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .contacts-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 15px;
+  }
+}
+
+@media (min-width: 1250px) {
+  .contacts-container {
+    grid-template-columns: 1fr;
+  }
+}

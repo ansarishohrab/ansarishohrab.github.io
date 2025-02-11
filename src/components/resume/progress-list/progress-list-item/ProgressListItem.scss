@@ -1,0 +1,28 @@
+.progress-list-item-container {
+    display: block;
+
+    &:not(:last-child) {
+        margin-bottom: 15px;
+    }
+
+    .title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 8px;
+
+        data {
+            color: var(--light-gray);
+            font-size: var(--fs-7);
+            font-weight: var(--fw-300);
+        }
+    }
+}
+
+@media (min-width: 580px) {
+    .progress-list-item-container {
+        &:not(:last-child) {
+            margin-bottom: 25px;
+        }
+    }
+}

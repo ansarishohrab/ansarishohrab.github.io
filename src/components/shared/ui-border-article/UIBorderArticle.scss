@@ -1,0 +1,39 @@
+.ui-border-article-container {
+  background: var(--eerie-black-2);
+  border: 1px solid var(--jet);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: var(--shadow-1);
+  z-index: 1;
+
+  display: block;
+  animation: fade 0.5s ease backwards;
+}
+
+@media (min-width: 580px) {
+  .ui-border-article-container {
+    width: 520px;
+    margin-inline: auto;
+    padding: 30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-border-article-container {
+    width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-border-article-container {
+    width: 950px;
+    box-shadow: var(--shadow-5);
+  }
+}
+
+@media (min-width: 1250px) {
+  .ui-border-article-container {
+    width: auto;
+    min-height: 100%;
+  }
+}

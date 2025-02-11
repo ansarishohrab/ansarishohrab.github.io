@@ -1,0 +1,30 @@
+.technology-item-container {
+  min-width: 50%;
+  scroll-snap-align: start;
+
+  .h5 {
+    margin-top: 15px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 450px) {
+  .technology-item-container {
+    min-width: calc(33.33% - 10px);
+  }
+}
+
+@media (min-width: 580px) {
+  .technology-item-container {
+    min-width: calc(33.33% - 35px);
+    .h5 {
+      margin-top: 10px;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .technology-item-container {
+    min-width: calc(25% - 38px);
+  }
+}

@@ -1,0 +1,26 @@
+.ui-content-card-container {
+  display: block;
+  position: relative;
+  background: var(--border-gradient-onyx);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+  cursor: pointer;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    background: var(--bg-gradient-jet);
+    border-radius: inherit;
+    z-index: -1;
+  }
+}
+
+@media (min-width: 580px) {
+  .ui-content-card-container {
+    padding: 30px;
+    padding-top: 25px;
+  }
+}

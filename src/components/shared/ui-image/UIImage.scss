@@ -1,0 +1,19 @@
+.ui-image-container {
+  img {
+    width: 100%;
+    margin: auto;
+    transition: transform var(--transition-1), filter var(--transition-3);
+
+    &.scaled {
+      transform: scale(1.1);
+    }
+
+    &.loaded {
+      filter: blur(0);
+    }
+  }
+
+  .blur {
+    filter: blur(20px);
+  }
+}
