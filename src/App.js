@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/api/profile/67a995a57421554f8aee60f9`
+        `${process.env.REACT_APP_API_URL}/api/profile/67aae65ad7095b256b370004`
       )
       .then((response) => {
         const profile = response.data;
