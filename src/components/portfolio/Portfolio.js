@@ -14,11 +14,16 @@ const Portfolio = (props) => {
 
   useEffect(() => {
     const calculateCategories = () => {
-      let categories = profile?.projects?.map((project) => ({
-        name: project.category || "All",
-        value: project.category,
-      }));
-      categories?.unshift({ name: "All", value: "" });
+      let categories = [
+        { name: "All", value: "" }, // Ensure "All" is always present
+        ...Array.from(
+          new Set(
+            profile?.projects
+              ?.map((project) => project.category)
+              .filter(Boolean)
+          )
+        ).map((category) => ({ name: category, value: category })),
+      ];
       setCategories(categories);
       setSelectedCategory(categories?.[0]);
     };
