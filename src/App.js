@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/api/profile/67aae65ad7095b256b370004`
+        `${process.env.REACT_APP_API_URL}/api/profiles/Sohrab Alam Ansari`
       )
       .then((response) => {
         const profile = response.data;
