@@ -4,7 +4,7 @@ import "./UICategoryFilter.scss";
 
 const UICategoryFilter = (props) => {
   const { categories, initialSelection, categoryChanged } = props;
-  const [isDropdowOptionsVisible, setIsDropdowOptionsVisible] = useState();
+  const [isDropdowOptionsVisible] = useState();
   const [selected, setSelected] = useState(initialSelection);
   useEffect(() => {
     setSelected(initialSelection);
