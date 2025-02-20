@@ -12,7 +12,6 @@ const Technologies = (props) => {
       setSortedTechnologies(
         [...technologies].sort((a, b) => a.title.localeCompare(b.title))
       );
-      console.log(sortedTechnologies);
     }
   }, [technologies]);
   return (
