@@ -8,7 +8,7 @@ const UICategoryFilter = (props) => {
   const [selected, setSelected] = useState(initialSelection);
   useEffect(() => {
     setSelected(initialSelection);
-  });
+  }, []);
 
   const onClickCategory = (category) => {
     setSelected(category);
