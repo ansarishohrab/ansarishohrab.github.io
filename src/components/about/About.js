@@ -1,11 +1,13 @@
+import { useContext } from "react";
 import UIBorderArticle from "../shared/ui-border-article/UIBorderArticle";
 import UILoader from "../shared/ui-loader/UILoader";
 import "./About.scss";
 import SoftSkills from "./soft-skills/SoftSkills";
 import Technologies from "./technologies/Technologies";
 import WhatIDo from "./what-i-do/WhatIDo";
-const About = (props) => {
-  const { profile } = props;
+import { DataContext } from "../../store/DataContextProvider";
+const About = () => {
+  const { profile } = useContext(DataContext);
   return (
     <div className="about-container">
       <UIBorderArticle>

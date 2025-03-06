@@ -5,39 +5,24 @@ import Tabs from "./components/tabs/Tabs";
 import About from "./components/about/About";
 import Resume from "./components/resume/Resume";
 import Portfolio from "./components/portfolio/Portfolio";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import DataContextProvider from "./store/DataContextProvider";
 
 function App() {
-  const [profile, setProfile] = useState();
-  useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/api/profiles/Sohrab Alam Ansari`
-      )
-      .then((response) => {
-        const profile = response.data;
-        console.log(profile);
-        setProfile(profile);
-      })
-      .catch((error) => {
-        console.log(error);
-        setProfile({});
-      });
-  }, []);
   return (
-    <div className="main-app">
-      <Profile profile={profile} />
-      <div className="main-content">
-        <Tabs />
-        <Routes>
-          <Route path="/" element={<Navigate to="/about" />} />
-          <Route path="/about" element={<About profile={profile} />} />
-          <Route path="/resume" element={<Resume profile={profile} />} />
-          <Route path="/portfolio" element={<Portfolio profile={profile} />} />
-        </Routes>
+    <DataContextProvider>
+      <div className="main-app">
+        <Profile />
+        <div className="main-content">
+          <Tabs />
+          <Routes>
+            <Route path="/" element={<Navigate to="/about" />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </DataContextProvider>
   );
 }
 

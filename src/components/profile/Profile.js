@@ -1,12 +1,13 @@
 import { Button } from "react-bootstrap";
 import UIImage from "../shared/ui-image/UIImage";
 import "./Profile.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Contacts from "./contacts/Contacts";
 import Socials from "./socials/Socials";
+import { DataContext } from "../../store/DataContextProvider";
 
-const Profile = (props) => {
-  const { profile } = props;
+const Profile = () => {
+  const { profile } = useContext(DataContext);
   const [hostClass, setHostClass] = useState("");
   const [imageWidth, setImageWidth] = useState("80px");
 

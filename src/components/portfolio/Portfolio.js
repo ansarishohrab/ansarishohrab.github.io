@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UIBorderArticle from "../shared/ui-border-article/UIBorderArticle";
 import UICategoryFilter from "../shared/ui-category-filter/UICategoryFilter";
 import UILoader from "../shared/ui-loader/UILoader";
 import PortfolioItem from "./portfolio-item/PortfolioItem";
 import "./Portfolio.scss";
+import { DataContext } from "../../store/DataContextProvider";
 
-const Portfolio = (props) => {
-  const { profile } = props;
+const Portfolio = () => {
+  const { profile } = useContext(DataContext);
 
   const [categories, setCategories] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
