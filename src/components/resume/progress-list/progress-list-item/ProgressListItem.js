@@ -8,7 +8,7 @@ const ProgressListItem = (props) => {
     <div className="progress-list-item-container">
       <div className="title-wrapper">
         <h5 className="h5">{item.title}</h5>
-        <data value={removePercent(item.value)}>{item.value}</data>
+        <data value={removePercent(item.value)}>{item.subtext || item.value}</data>
       </div>
       <UIProgress progress={removePercent(item.value)} />
     </div>

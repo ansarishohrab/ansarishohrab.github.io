@@ -30,6 +30,9 @@
     .avatar-box {
       background: var(--bg-gradient-onyx);
       border-radius: 20px;
+      img {
+        border-radius: 20px;
+      }
     }
 
     .info-content {
@@ -70,7 +73,6 @@
         position: absolute;
         inset: 1px;
         border-radius: inherit;
-        background: var(--bg-gradient-jet);
         transition: var(--transition-1);
         z-index: -1;
       }
@@ -118,6 +120,9 @@
       gap: 25px;
       .avatar-box {
         border-radius: 30px;
+        img{
+          border-radius: 30px;
+        }
       }
       .info-content {
         .name {

@@ -1,6 +1,7 @@
 .what-i-do-item-container {
   .service-icon-box {
     margin-bottom: 10px;
+
     img {
       margin: auto;
     }
@@ -14,9 +15,9 @@
     }
 
     .service-item-text {
-      color: var(--light-gray);
+      color: var(--text-secondary);
       font-size: var(--fs-6);
-      font-weight: var(--fw-3);
+      font-weight: var(--fw-300);
       line-height: 1.6;
     }
   }
